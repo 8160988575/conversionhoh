@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from "react";
 import API from "../../api.js";
 
+
 export const Mainsearch = () => {
 
+const [searchdata, setsearchdata] = useState("")
  const [discountdata, setdiscountdata] = useState([])
+ const [fixdiscountdata, setfixdiscountdata] = useState([])
  const [orderdata, setorderdata] = useState("second")
 
  useEffect(() => {
   const getdata = async () => {
     try {
-        const response = await fetch("http://localhost:5000/getdiscountdata")
+        // const response = await fetch("http://localhost:5000/discount/getdiscountdata")
+        const response = await fetch(`${import.meta.env.VITE_APP_BASE_URL}/discount/getdiscountdata`)
         // const response = await  API.get('/getdiscountdata')
         const data = await response.json()
         setdiscountdata(data)
+        setfixdiscountdata(data)
         console.log(data)
         
     } catch (error) {
@@ -22,13 +27,37 @@ export const Mainsearch = () => {
   }
   getdata()
  }, [])
+ 
+ useEffect(() => {
+   if(searchdata.length > 0){
+     const getdata = async () => {
+       try {
+
+         const samedata = fixdiscountdata.filter(((item)=>item.number.toLowerCase().includes(searchdata.toLowerCase()) ||item.Discount_type.toLowerCase().includes(searchdata.toLowerCase())))
+         setdiscountdata(samedata)
+           
+       } catch (error) {
+            console.log("error we got",error)
+       }
+ 
+     }
+     getdata()
+   }
+   else{  
+     setdiscountdata(fixdiscountdata)
+   }
+ 
+ }, [searchdata])
+ 
 
  const usethisdiscount = async(id) => {
-   const updatedone = await fetch(`http://localhost:5000/usediscount/${id}`, {
+  //  const updatedone = await fetch(`http://localhost:5000/usediscount/${id}`, {
+   const updatedone = await fetch(`${import.meta.env.VITE_APP_BASE_URL}/usediscount/${id}`, {
      method: "PUT"})
      let  jsondata = await updatedone.json()
     //  setdiscountdata(updatedone)
     setdiscountdata(jsondata)
+    setfixdiscountdata(jsondata)
     console.log(jsondata)
    
  }
@@ -39,7 +68,7 @@ export const Mainsearch = () => {
       <div className="container flex flex-col items-center gap-4 pb-60">
         <div className="search my-10">
           <label className="input input-bordered flex items-center gap-2">
-            <input type="text" className="grow" placeholder="Search" />
+            <input type="text" onChange={(e)=>setsearchdata(e.target.value)} value={searchdata} className="grow" placeholder="Search" />
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"

@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import './navcss.css'
+import { Link } from "react-router-dom";
+
 
 const Navbar = () => {
  
     const yup = <>
     <li><a>Order's</a></li>
     <li><a>Customer's</a></li>
-    <li><a>Discount's</a></li>
+    <li><Link to='/Discountshow'>Discount's</Link></li>
+    <li><Link to='/contactus'>ConactUs</Link></li>
     <li><a>Login/Logout</a></li> </>
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -19,7 +22,7 @@ const Navbar = () => {
     <div>
     <div className="navbar bg-base-100 shadow-md">
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl">BusinessName</a>
+        <Link to='/' className="btn btn-ghost text-xl">BusinessName</Link>
       </div>
       <div className="flex-none">
         <div className="dropdown dropdown-end">

@@ -7,6 +7,10 @@ import { Yup } from './components/Settoken';
 import { Login } from './components/Login';
 import Navbar2  from './components/Navbar2';
 import { Mainsearch } from './components/Mainsearch';
+import { Contact } from './components/Contact';
+import { AddDiscount } from './components/AddDiscount';
+import { Discountshow } from './components/Discountshow';
+import { TablePrac } from './components/TablePrac';
 
 
 
@@ -53,6 +57,26 @@ function App() {
         {
           path: "midone",
           element: <Middleone />, // Public route
+         
+        },
+        {
+          path: "contactus",
+          element: <Contact />, // Public route
+         
+        },
+        {
+          path: "Discountadd",
+          element: <AddDiscount />, // Public route
+         
+        },
+        {
+          path: "Discountshow",
+          element: <Discountshow />, // Public route
+         
+        },
+        {
+          path: "TablePrac",
+          element: <TablePrac />, // Public route
          
         },
      
