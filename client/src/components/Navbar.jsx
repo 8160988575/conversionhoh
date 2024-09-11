@@ -1,22 +1,23 @@
 import React, { useState } from "react";
-import './navcss.css'
+import './css/navcss.css'
 import { Link } from "react-router-dom";
 
 
 const Navbar = () => {
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
  
     const yup = <>
-    <li><a>Order's</a></li>
-    <li><a>Customer's</a></li>
-    <li><Link to='/Discountshow'>Discount's</Link></li>
+    <li><Link to='/'>Order's</Link></li>
+    <li><Link to='/'>Customer's</Link></li>
+    <li><Link to='/Discountshow' onClick={toggleDropdown}>Discount's</Link></li>
     <li><Link to='/contactus'>ConactUs</Link></li>
     <li><a>Login/Logout</a></li> </>
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
-  };
+ 
 
   return (
     <div>
