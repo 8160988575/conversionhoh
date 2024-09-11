@@ -11,6 +11,7 @@ import { Contact } from './components/Contact';
 import { AddDiscount } from './components/AddDiscount';
 import { Discountshow } from './components/Discountshow';
 import { TablePrac } from './components/TablePrac';
+import { Discountshowcopy } from './components/Discountshowcopy';
 
 
 
@@ -72,6 +73,11 @@ function App() {
         {
           path: "Discountshow",
           element: <Discountshow />, // Public route
+         
+        },
+        {
+          path: "Discopy",
+          element: <Discountshowcopy />, // Public route
          
         },
         {

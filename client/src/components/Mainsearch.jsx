@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import API from "../../api.js";
+import './css/CssMainsearch.css'
+
 
 
 export const Mainsearch = () => {
@@ -13,7 +15,7 @@ const [searchdata, setsearchdata] = useState("")
   const getdata = async () => {
     try {
         // const response = await fetch("http://localhost:5000/discount/getdiscountdata")
-        const response = await fetch(`${import.meta.env.VITE_APP_BASE_URL}/discount/getdiscountdata`)
+        const response = await fetch(`${import.meta.env.VITE_APP_BASE_URL}/discount/getalldiscountdata`)
         // const response = await  API.get('/getdiscountdata')
         const data = await response.json()
         setdiscountdata(data)
@@ -68,7 +70,7 @@ const [searchdata, setsearchdata] = useState("")
       <div className="container flex flex-col items-center gap-4 pb-60">
         <div className="search my-10">
           <label className="input input-bordered flex items-center gap-2">
-            <input type="text" onChange={(e)=>setsearchdata(e.target.value)} value={searchdata} className="grow" placeholder="Search" />
+            <input type="text" style={{}} onChange={(e)=>setsearchdata(e.target.value)} value={searchdata} className="atmainsearch" placeholder="Search" />
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"

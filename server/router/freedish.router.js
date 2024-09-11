@@ -9,6 +9,14 @@ router.post('/adddiscount',async(req,res)=>{
     res.json(data)
 })
 
+// all data (Discountshow)
+router.get('/getalldiscountdata',async(req,res)=>{
+    const data = await Freedish.find()
+    res.json(data)
+
+})
+
+
 router.get('/getdiscountdata',async(req,res)=>{
     const data = await Freedish.find({
         status: "notused"})

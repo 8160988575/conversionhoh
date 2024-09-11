@@ -1,0 +1,18 @@
+.atmainsearch
+{
+    /* color:"red"; */
+    /* background-color:red !important; */
+    border:none;
+    
+}
+
+
+.atmainsearch:focus
+{
+    /* color:"red"; */
+    /* background-color:red !important; */
+   
+    box-shadow: none !important;
+
+}
+
