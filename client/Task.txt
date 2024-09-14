@@ -1,0 +1,12 @@
+sahjanand swami mahraj ni jay:
+
+
+1. add discount vada ma complete  karva nu che ke perfect add the
+2. 
+
+
+*APP Level:
+
+1. store  reducer creation
+2. creating loader for app 
+3. 
