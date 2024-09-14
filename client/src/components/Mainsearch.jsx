@@ -35,8 +35,8 @@ const [searchdata, setsearchdata] = useState("")
    if(searchdata.length > 0){
      const getdata = async () => {
        try {
-
-         const samedata = fixdiscountdata.filter(((item)=>item.number.toLowerCase().includes(searchdata.toLowerCase()) ||item.Discount_type.toLowerCase().includes(searchdata.toLowerCase())))
+        console.log("fixdiscountdata",fixdiscountdata)
+         const samedata = fixdiscountdata.filter((item=>item.number?.toString()?.toLowerCase()?.includes(searchdata.toLowerCase()) ||item.Discount_type?.toLowerCase()?.includes(searchdata.toLowerCase())))
          setdiscountdata(samedata)
            
        } catch (error) {
