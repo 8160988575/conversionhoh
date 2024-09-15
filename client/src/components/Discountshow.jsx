@@ -13,12 +13,7 @@ export const Discountshow = () => {
   const [fixedDiscountData, setFixedDiscountData] = useState([]);
   const [discountData, setData] = useState([]);
   const [search, setsearch] = useState("");
-
   const [check, setcheck] = useState("")
-
-
-const [paginationbuttons, setpaginationbuttons] = useState([])
-
 const [currentPage, setCurrentPage] = useState(1);
 const [rowsPerPage, setRowsPerPage] = useState(3);
 
@@ -29,34 +24,28 @@ const [rowsPerPage, setRowsPerPage] = useState(3);
       dispatch(fetchTodos());      
       console.log("start use effect got called",todos)
     }
-    
-
-  }, []);
+  }, []);  
 
   useEffect(() => {
-    // if (search) {
-      console.log("at the searches")
+    console.log("todos use effect got called",todos)
+    setFixedDiscountData(todos)   
+    setData(todos)       
+     console.log("check",check)
+  }, [todos]);
+
+
+  const searchhandle = (e) => {
+    console.log("at the searches")
     const updatedata = fixedDiscountData.filter((row) => {
       return Object.values(row)
         .toString()
         .toLowerCase()
-        .includes(search?.toLowerCase());
+        .includes(e.target.value?.toLowerCase());
     });
+    setsearch(e.target.value)
     setData(updatedata);
     setCurrentPage(1)
-      
-    // }
-  }, [search]);
-
-  useEffect(() => {
-    console.log("todos use effect got called",todos)
-    setFixedDiscountData(todos)
-    // console.log("fixedDiscountData",fixedDiscountData)
-    setData(todos)   
-    
-     console.log("check",check)
-  }, [todos]);
-
+  }
 
 
 
@@ -71,7 +60,7 @@ useEffect(() => {
   setcurrentRows(discountData.slice(indexOfFirstRow, indexOfLastRow));
 
   settotalPages(Math.ceil(discountData.length / rowsPerPage));
-  
+  console.log("pagination called")
 
  
 }, [search, discountData, currentPage, rowsPerPage]); 
@@ -175,9 +164,7 @@ const goToPage = (pageNumber) => {
             type="text"
             name="search"
             value={search}
-            onChange={(e) => {
-              return setsearch(e.target.value);
-            }}
+            onChange={searchhandle}
           />
         </div>
         <p>{check}</p>
