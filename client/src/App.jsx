@@ -13,6 +13,8 @@ import { Discountshow } from './components/Discountshow';
 import { TablePrac } from './components/TablePrac';
 import { Discountshowcopy } from './components/Discountshowcopy';
 
+import { CounterImpliment } from './components/CounterImpliment';
+
 
 
 
@@ -83,6 +85,11 @@ function App() {
         {
           path: "TablePrac",
           element: <TablePrac />, // Public route
+         
+        },
+        {
+          path: "counter",
+          element: <CounterImpliment />, // Public route
          
         },
      

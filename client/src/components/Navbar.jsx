@@ -12,11 +12,12 @@ const Navbar = () => {
     <li><Link to='/'>Order's</Link></li>
     <li><Link to='/'>Customer's</Link></li>
     <li><Link to='/Discountshow' onClick={toggleDropdown}>Discount's</Link></li>
-    <li><Link to='/contactus'>ConactUs</Link></li>
+    <li><Link to='/Discountadd' onClick={toggleDropdown}>Add_Discount</Link></li>
+    <li><Link to='/contactus' onClick={toggleDropdown}>ConactUs</Link></li>
     <li><a>Login/Logout</a></li> </>
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  
+
  
 
   return (
