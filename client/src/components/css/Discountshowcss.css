@@ -1,0 +1,24 @@
+/* For WebKit-based browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 2px; /* Extremely thin scrollbar */
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: transparent; /* Transparent background for the track */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 48, 48, 0.7); /* Semi-transparent thumb */
+    border-radius: 10px; /* Rounded corners */
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(177, 25, 25, 0.8); /* Slightly darker on hover */
+  }
+  
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(179, 34, 34, 0.7) transparent;
+  }
+  

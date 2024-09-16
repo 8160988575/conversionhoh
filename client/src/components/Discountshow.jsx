@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./css/TableComponent.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTodos } from "../features/discount/DiscountSlice.js";
+import './css/Discountshowcss.css'
+import { ToastContainer, toast , Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Discountshow = () => {
   const { todos, status, error } = useSelector((state) => state.discount);
@@ -15,22 +18,23 @@ export const Discountshow = () => {
   const [rowsPerPage, setRowsPerPage] = useState(3);
   const [currentRows, setcurrentRows] = useState();
   const [totalPages, settotalPages] = useState();
-
   const [formData, setFormData] = useState({
     name: "",
     number: "",
-    discount_type: "",
+    Discount_type: "",
     email: "",
     reference_name: "",
     reference_number: "",
     current_use: false,
     self_giving: false,
   });
-
   const [defaultref, setdefaultref] = useState({
     name: "Owner",
     number: "1234567891",
   });
+  const [isOpen, setIsOpen] = useState(false);
+  const modalRef = useRef(null);
+
 
   // pagination
   useEffect(() => {
@@ -82,6 +86,32 @@ export const Discountshow = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  // for the time and date
+    Date.prototype.today = function () { 
+      return ((this.getDate() < 10)?"0":"") + this.getDate() +"/"+(((this.getMonth()+1) < 10)?"0":"") + (this.getMonth()+1) +"/"+ this.getFullYear();
+  }
+   // For the time now
+  Date.prototype.timeNow = function () {
+       return ((this.getHours() < 10)?"0":"") + this.getHours() +":"+ ((this.getMinutes() < 10)?"0":"") + this.getMinutes() +":"+ ((this.getSeconds() < 10)?"0":"") + this.getSeconds();
+  }
+  var newDate = new Date();
+
+  let finalrepond = {
+    ...formData,
+    addingdate:newDate.today(),
+    addingtime:newDate.timeNow(),
+    status:"notused",
+    did:Math.floor(Math.random() * 1000000000)
+    
+  }
+  if (formData.current_use) {
+    finalrepond = {...finalrepond,usingtime:finalrepond.addingtime,usingdate:finalrepond.addingdate}
+
+    
+  }
+ // for the random number 
+  
+
     console.log(formData); // Here, you can handle the form submission, such as sending the data to the server
     const finaldata = await fetch(
       `${import.meta.env.VITE_APP_BASE_URL}/discount/adddiscount`,
@@ -91,7 +121,7 @@ export const Discountshow = () => {
           "Content-Type": "application/json",
           "auth-token": localStorage.getItem("token"),
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(finalrepond),
       }
     );
     console.log(await finaldata.json());
@@ -99,13 +129,26 @@ export const Discountshow = () => {
     setFormData({
       name: "",
       number: "",
-      discount_type: "",
+      Discount_type: "",
       email: "",
       reference_name: "",
       reference_number: "",
       current_use: false,
       self_giving: false,
     });
+    setIsOpen(false);
+    toast.success('Discount Added Sucessfully', {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+      });
+
   };
 
   const nextPage = () => {
@@ -165,8 +208,11 @@ export const Discountshow = () => {
     return ar;
   };
 
+  
+
   return (
     <div>
+      <ToastContainer />
       <div className="table-container">
         <div className="my-4 flex justify-between">
           <input
@@ -178,7 +224,7 @@ export const Discountshow = () => {
             onChange={searchhandle}
           />
 
-          <label htmlFor="" className="btn text-white bg-slate-700">
+          <label onClick={() => setIsOpen(true)} className="btn text-white bg-slate-700">
             Add Discount
           </label>
         </div>
@@ -208,12 +254,20 @@ export const Discountshow = () => {
           {`current page is ${currentPage}`}
         </div>
       </div>
+      {isOpen && (
+        <p className="fixed top-10 right-10 bg-white z-500" onClick={() => setIsOpen(false)}>close</p>
+      )}
 
+        { isOpen && <>
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+        <div
+            ref={modalRef}
+            className="bg-white rounded-lg w-1/3 h-3/4 p-6 relative shadow-lg overflow-y-auto scrollbar-hide"
+          >
+            <p className="pointer-cursor" onClick={() => setIsOpen(false)}>close</p>
       <form onSubmit={handleSubmit} className="mx-2 my-3 md:mx-0">
         <div>
-          <h1 className=" hidden text-2xl flex justify-center mb-5 font-bold popins">
-            Add Discount
-          </h1>
+       
         </div>
         <div className="mb-5">
           <label
@@ -260,8 +314,8 @@ export const Discountshow = () => {
           </label>
           <input
             type="text"
-            id="discount_type"
-            value={formData.discount_type}
+            id="Discount_type"
+            value={formData.Discount_type}
             onChange={handleChange}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
             placeholder="Discount Type"
@@ -292,9 +346,10 @@ export const Discountshow = () => {
             type="checkbox"
             id="currentuse"
             value={formData.current_use}
-            onChange={() =>
+            onChange={() =>{
               setFormData({ ...formData, current_use: !formData.current_use })
-            }
+
+            }}
             className="shadow-sm mb-2"
             placeholder="CurrentUse"
           />{" "}
@@ -400,6 +455,9 @@ export const Discountshow = () => {
           </button>
         </div>
       </form>
+      </div>
+      </div>
+      </>}
 
     </div>
   );
