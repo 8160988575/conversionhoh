@@ -14,6 +14,7 @@ import { TablePrac } from './components/TablePrac';
 import { Discountshowcopy } from './components/Discountshowcopy';
 
 import { CounterImpliment } from './components/CounterImpliment';
+import { Ordershow } from './components/Ordershow';
 
 
 
@@ -90,6 +91,11 @@ function App() {
         {
           path: "counter",
           element: <CounterImpliment />, // Public route
+         
+        },
+        {
+          path: "Ordershow",
+          element: <Ordershow />, // Public route
          
         },
      
