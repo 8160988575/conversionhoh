@@ -37,10 +37,25 @@ const DiscountSlice = createSlice({
   name: 'todos',
   initialState: {
     todos: [],
+    todo:{
+      name: "",
+      number: "",
+      Discount_type: "",
+      email: "",
+      reference_name: "",
+      reference_number: "",
+      current_use: false,
+      self_giving: false,
+      
+    },
     status: 'idle',
     error: null,
   },
-  reducers: {},
+  reducers: {
+    todohandle: (state,action) => {
+      state.todo = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchTodos.pending, (state) => {
@@ -70,5 +85,7 @@ const DiscountSlice = createSlice({
       });
   },
 });
+
+export const { todohandle } = DiscountSlice.actions;
 
 export default DiscountSlice.reducer;
