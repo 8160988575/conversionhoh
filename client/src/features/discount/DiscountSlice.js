@@ -8,29 +8,35 @@ export const fetchTodos = createAsyncThunk('todos/fetchTodos', async () => {
 });
 
 // Add new todo
-export const addTodo = createAsyncThunk('todos/addTodo', async (text) => {
-  const response = await fetch('http://localhost:5000/api/todos', {
+export const adddiscount = createAsyncThunk('todos/addTodo', async (text) => {
+  console.log("text",text)
+  const response = await fetch('http://localhost:5000/discount/adddiscount', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text }),
+    body: JSON.stringify(text),
   });
   return response.json();
 });
 
 // Update a todo
-export const updateTodo = createAsyncThunk('todos/updateTodo', async ({ id, updatedTodo }) => {
-  const response = await fetch(`http://localhost:5000/api/todos/${id}`, {
+export const updateTodo = createAsyncThunk('todos/updateTodo', async (updatetodo) => {
+  console.log("updatetodo",updatetodo)
+  const response = await fetch(`http://localhost:5000/discount/updatediscount`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(updatedTodo),
+    body: JSON.stringify(updatetodo),
   });
   return response.json();
 });
 
 // Delete a todo
-export const deleteTodo = createAsyncThunk('todos/deleteTodo', async (id) => {
-  await fetch(`http://localhost:5000/api/todos/${id}`, { method: 'DELETE' });
-  return id;
+export const deletediscount = createAsyncThunk('todos/deleteTodo', async (todo) => {
+  await fetch(`http://localhost:5000/discount/deletediscount`, {
+     method: 'DELETE' , 
+     headers: { 'Content-Type': 'application/json' },
+     body: JSON.stringify(todo),});
+
+  return todo._id;
 });
 
 const DiscountSlice = createSlice({
@@ -45,8 +51,7 @@ const DiscountSlice = createSlice({
       reference_name: "",
       reference_number: "",
       current_use: false,
-      self_giving: false,
-      
+      self_giving: false,      
     },
     status: 'idle',
     error: null,
@@ -69,7 +74,7 @@ const DiscountSlice = createSlice({
         state.status = 'failed';
         state.error = action.error.message;
       })
-      .addCase(addTodo.fulfilled, (state, action) => {
+      .addCase(adddiscount.fulfilled, (state, action) => {
         state.todos.push(action.payload);
       })
       .addCase(updateTodo.fulfilled, (state, action) => {
@@ -80,8 +85,8 @@ const DiscountSlice = createSlice({
           existingTodo.completed = updatedTodo.completed;
         }
       })
-      .addCase(deleteTodo.fulfilled, (state, action) => {
-        state.todos = state.todos.filter(todo => todo.id !== action.payload);
+      .addCase(deletediscount.fulfilled, (state, action) => {
+        state.todos = state.todos.filter(todo => todo._id !== action.payload);
       });
   },
 });

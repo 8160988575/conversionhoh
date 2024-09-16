@@ -29,6 +29,7 @@ export const Discountshow = () => {
 
   // pagination
   useEffect(() => {
+    console.log("pagination called after  update");
     const indexOfLastRow = currentPage * rowsPerPage;
     const indexOfFirstRow = indexOfLastRow - rowsPerPage;
     setcurrentRows(discountData.slice(indexOfFirstRow, indexOfLastRow));
@@ -50,6 +51,7 @@ export const Discountshow = () => {
     setFixedDiscountData(todos);
     setData(todos);
     console.log("check", check);
+    // searchhandle()
   }, [todos]);
 
   const searchhandle = (e) => {
@@ -58,13 +60,14 @@ export const Discountshow = () => {
       return Object.values(row)
         .toString()
         .toLowerCase()
-        .includes(e.target.value?.toLowerCase());
+        .includes(e.target.value.toLowerCase());
     });
     setsearch(e.target.value);
     setData(updatedata);
     setCurrentPage(1);
   };
 
+ 
   const nextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);

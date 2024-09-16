@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTodos, todohandle } from '../features/discount/DiscountSlice';
+import { adddiscount, deletediscount, fetchTodos, todohandle, updateTodo } from '../features/discount/DiscountSlice';
+import { Bounce, toast } from 'react-toastify';
+import { MdDelete } from "react-icons/md";
+import { MdOutlineCloseFullscreen } from "react-icons/md";
+
 
 
 export const Adddiscountmodal = ({isOpen,setIsOpen}) => {
@@ -38,12 +42,16 @@ export const Adddiscountmodal = ({isOpen,setIsOpen}) => {
         current_use: todo.current_use,
         self_giving:todo.self_giving,
         status:todo.status,
+        _id:todo._id,
         }))
      
     }, [todo])
     
    
       const handleSubmit = async (e) => {
+
+        
+       
         e.preventDefault();
       // for the time and date
         Date.prototype.today = function () { 
@@ -60,7 +68,9 @@ export const Adddiscountmodal = ({isOpen,setIsOpen}) => {
         addingdate:newDate.today(),
         addingtime:newDate.timeNow(),
         status:"notused",
-        did:Math.floor(Math.random() * 1000000000)
+        did:todo.name?todo.did: Math.floor(Math.random() * 1000000000)
+        
+
         
       }
       if (formData.current_use) {
@@ -71,19 +81,22 @@ export const Adddiscountmodal = ({isOpen,setIsOpen}) => {
     
       
     
-        console.log(formData); // Here, you can handle the form submission, such as sending the data to the server
-        const finaldata = await fetch(
-          `${import.meta.env.VITE_APP_BASE_URL}/discount/adddiscount`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "auth-token": localStorage.getItem("token"),
-            },
-            body: JSON.stringify(finalrepond),
-          }
-        );
-        console.log(await finaldata.json());
+        console.log("finalrepond",finalrepond); // Here, you can handle the form submission, such as sending the data to the server
+      let  finaldata;
+        
+        //  for the updates and add fresh 
+        if (todo.name) {
+            console.log("finalrepond update",finalrepond)
+          finaldata = dispatch(updateTodo(finalrepond));
+             
+         }
+        else
+        {
+          finaldata=  dispatch(adddiscount(finalrepond));
+
+        }
+
+        console.log(await finaldata);
         dispatch(fetchTodos());
         setFormData({
           name: "",
@@ -129,10 +142,16 @@ export const Adddiscountmodal = ({isOpen,setIsOpen}) => {
             ref={modalRef}
             className="bg-white rounded-lg md:w-1/3 h-3/4 p-6 relative shadow-lg overflow-y-auto scrollbar-hide"
           >
+           <div className='flex justify-between'>
             <p className="pointer-cursor" onClick={() => {
                 setIsOpen(false)
                 dispatch(todohandle({}))
-            }}>close</p>
+            }}><MdOutlineCloseFullscreen /></p>
+            <p onClick={()=>{
+                dispatch(deletediscount(todo))
+                setIsOpen(false)
+                }}><MdDelete /></p>
+           </div>
       <form onSubmit={handleSubmit} className="mx-2 my-3 md:mx-0">
         <div>
        

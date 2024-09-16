@@ -4,6 +4,13 @@ import Freedish from '../models/freedish.model.js'
 const router = express.Router()
 
 
+router.delete('/deletediscount',async(req,res)=>{
+    console.log(req.body)
+    const data = await Freedish.deleteOne({_id:req.body._id})
+    res.json(data)
+    console.log(data)
+})
+
 router.post('/adddiscount',async(req,res)=>{
     const data = await Freedish.create(req.body)
     res.json(data)
@@ -19,6 +26,15 @@ router.get('/getalldiscountdata',async(req,res)=>{
 
 })
 
+router.put('/updatediscount',async(req,res)=>{
+  let  {_id} = req.body
+  console.log("update is getting called",req.body)
+  console.log("id",_id)
+    // const id = req.params.did
+    const data = await Freedish.updateOne({_id:_id},{$set: req.body})
+    console.log(data)
+    res.json(data)
+})
 
 router.get('/getdiscountdata',async(req,res)=>{
     const data = await Freedish.find({

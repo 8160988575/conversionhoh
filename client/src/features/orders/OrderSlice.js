@@ -8,7 +8,7 @@ export const fetchorder = createAsyncThunk('order/fetchorder', async () => {
 });
 
 // Add new todo
-export const addTodo = createAsyncThunk('todos/addTodo', async (text) => {
+export const addorder = createAsyncThunk('todos/addTodo', async (text) => {
   const response = await fetch('http://localhost:5000/api/todos', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -18,7 +18,7 @@ export const addTodo = createAsyncThunk('todos/addTodo', async (text) => {
 });
 
 // Update a todo
-export const updateTodo = createAsyncThunk('todos/updateTodo', async ({ id, updatedTodo }) => {
+export const updateOrder = createAsyncThunk('todos/updateTodo', async ({ id, updatedTodo }) => {
   const response = await fetch(`http://localhost:5000/api/todos/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
@@ -54,19 +54,19 @@ const DiscountSlice = createSlice({
         state.status = 'failed';
         state.error = action.error.message;
       })
-      .addCase(addTodo.fulfilled, (state, action) => {
-        state.todos.push(action.payload);
+      .addCase(addorder.fulfilled, (state, action) => {
+        // state.todos.push(action.payload);
       })
-      .addCase(updateTodo.fulfilled, (state, action) => {
-        const updatedTodo = action.payload;
-        const existingTodo = state.todos.find(todo => todo.id === updatedTodo.id);
-        if (existingTodo) {
-          existingTodo.text = updatedTodo.text;
-          existingTodo.completed = updatedTodo.completed;
-        }
+      .addCase(updateOrder.fulfilled, (state, action) => {
+        // const updatedTodo = action.payload;
+        // const existingTodo = state.todos.find(todo => todo.id === updatedTodo.id);
+        // if (existingTodo) {
+        //   existingTodo.text = updatedTodo.text;
+        //   existingTodo.completed = updatedTodo.completed;
+        // }
       })
       .addCase(deleteTodo.fulfilled, (state, action) => {
-        state.todos = state.todos.filter(todo => todo.id !== action.payload);
+        // state.todos = state.todos.filter(todo => todo.id !== action.payload);
       });
   },
 });
