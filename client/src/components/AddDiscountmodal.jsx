@@ -12,7 +12,7 @@ export const Adddiscountmodal = ({isOpen,setIsOpen}) => {
     const [formData, setFormData] = useState({name: "",
         number: "",
         Discount_type: "",
-        email: "",
+        email: "yup",
         reference_name: "",
         reference_number: "",
         current_use: false,
@@ -48,9 +48,7 @@ export const Adddiscountmodal = ({isOpen,setIsOpen}) => {
     }, [todo])
     
    
-      const handleSubmit = async (e) => {
-
-        
+      const handleSubmit = async (e) => {        
        
         e.preventDefault();
       // for the time and date
@@ -69,18 +67,13 @@ export const Adddiscountmodal = ({isOpen,setIsOpen}) => {
         addingtime:newDate.timeNow(),
         status:"notused",
         did:todo.name?todo.did: Math.floor(Math.random() * 1000000000)
-        
-
-        
+                
       }
       if (formData.current_use) {
         finalrepond = {...finalrepond,usingtime:finalrepond.addingtime,usingdate:finalrepond.addingdate}
     
         
-      }
-    
-      
-    
+      }   
         console.log("finalrepond",finalrepond); // Here, you can handle the form submission, such as sending the data to the server
       let  finaldata;
         
@@ -96,8 +89,8 @@ export const Adddiscountmodal = ({isOpen,setIsOpen}) => {
 
         }
 
-        console.log(await finaldata);
-        dispatch(fetchTodos());
+        console.log("updated data from console",await finaldata);
+        // dispatch(fetchTodos());
         setFormData({
           name: "",
           number: "",
@@ -220,7 +213,7 @@ export const Adddiscountmodal = ({isOpen,setIsOpen}) => {
           <input
             type="text"
             id="email"
-            value={formData.email}
+            value={formData.email || "hi"}
             onChange={handleChange}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
             placeholder="name@flowbite.com"
@@ -310,29 +303,7 @@ export const Adddiscountmodal = ({isOpen,setIsOpen}) => {
           />
         </div>
 
-        <div className="flex items-start mb-5">
-          <div className="flex items-center h-5">
-            <input
-              id="terms"
-              type="checkbox"
-              value=""
-              className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-              required
-            />
-          </div>
-          <label
-            htmlFor="terms"
-            className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
-            I agree with the{" "}
-            <a
-              href="#"
-              className="text-blue-600 hover:underline dark:text-blue-500"
-            >
-              terms and conditions
-            </a>
-          </label>
-        </div>
+ 
         <div className="flex justify-center">
           <button
             type="submit"

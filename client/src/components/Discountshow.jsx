@@ -38,13 +38,15 @@ export const Discountshow = () => {
     console.log("pagination called");
   }, [search, discountData, currentPage, rowsPerPage]);
 
+
+
   useEffect(() => {
     console.log("this use effect got called");
-    if (status === "idle") {
+    // if (status === "idle") {
       dispatch(fetchTodos());
       console.log("start use effect got called", todos);
-    }
-  }, []);
+    // }
+  }, [dispatch]);
 
   useEffect(() => {
     console.log("todos use effect got called", todos);

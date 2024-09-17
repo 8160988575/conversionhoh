@@ -9,7 +9,7 @@ export const store = configureStore({
     counter: counterReducer,
     yuptodos:todoSlice,
     discount:DiscountSlice,
-    order:OrderSlice,    
+    // order:OrderSlice,    
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

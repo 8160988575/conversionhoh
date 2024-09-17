@@ -26,7 +26,8 @@ export const updateTodo = createAsyncThunk('todos/updateTodo', async (updatetodo
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(updatetodo),
   });
-  return response.json();
+  
+  return updatetodo;
 });
 
 // Delete a todo
@@ -63,27 +64,32 @@ const DiscountSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchTodos.pending, (state) => {
-        state.status = 'loading';
-      })
+      // .addCase(fetchTodos.pending, (state) => {
+      //   state.status = 'loading';
+      // })
       .addCase(fetchTodos.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.todos = action.payload;
       })
-      .addCase(fetchTodos.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-      })
-      .addCase(adddiscount.fulfilled, (state, action) => {
-        state.todos.push(action.payload);
-      })
+      // .addCase(fetchTodos.rejected, (state, action) => {
+      //   state.status = 'failed';
+      //   state.error = action.error.message;
+      // })
+      // .addCase(adddiscount.fulfilled, (state, action) => {
+      //   state.todos.push(action.payload);
+      // })
       .addCase(updateTodo.fulfilled, (state, action) => {
-        const updatedTodo = action.payload;
-        const existingTodo = state.todos.find(todo => todo.id === updatedTodo.id);
-        if (existingTodo) {
-          existingTodo.text = updatedTodo.text;
-          existingTodo.completed = updatedTodo.completed;
-        }
+       
+        let updatedTodo = action.payload;
+        console.log("at the add case with before",updatedTodo)
+        let existingTodo = state.todos.findIndex(todo => {
+         if(todo._id === updatedTodo._id)
+          { console.log("same id we got is",todo._id,updatedTodo._id)
+            console.log(todo)
+            return true
+          }
+        });
+       state.todos[existingTodo] = updatedTodo;
       })
       .addCase(deletediscount.fulfilled, (state, action) => {
         state.todos = state.todos.filter(todo => todo._id !== action.payload);
