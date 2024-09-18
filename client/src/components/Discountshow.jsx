@@ -46,13 +46,28 @@ export const Discountshow = () => {
       dispatch(fetchTodos());
       console.log("start use effect got called", todos);
     // }
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
-    console.log("todos use effect got called", todos);
-    setFixedDiscountData(todos);
-    setData(todos);
-    console.log("check", check);
+    setFixedDiscountData(todos)
+  if(!search){ console.log("todos use effect got called", todos)
+   console.log("search not present")
+    setData(todos)
+    console.log("check", check)}
+    else
+    {
+      console.log("search not")
+      console.log("at the searches");
+      const updatedata = todos.filter((row) => {
+        return Object.values(row)
+          .toString()
+          .toLowerCase()
+          .includes(search);
+      });      
+      setsearch(search);
+      setData(updatedata);
+      // setCurrentPage(1);
+    }
     // searchhandle()
   }, [todos]);
 
