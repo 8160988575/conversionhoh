@@ -11,7 +11,7 @@ import { Bounce, toast } from "react-toastify";
 import { MdDelete } from "react-icons/md";
 import { MdOutlineCloseFullscreen } from "react-icons/md";
 import { useFieldArray, useForm } from "react-hook-form";
-import { addorder } from "../features/orders/OrderSlice";
+import { addorder, updateOrder } from "../features/orders/OrderSlice";
 
 const defaultData = {
   name: "harsh new",
@@ -21,7 +21,7 @@ const defaultData = {
   product_status: "deliverd",
   payment_status: "paid",
   delivery_date: "2024-08-17",
-  departments: [
+  products: [
     { product_name: "Product A", product_price: "50" },
     { product_name: "Product B", product_price: "30" },
     { product_name: "Product c", product_price: "30" }
@@ -31,10 +31,10 @@ const defaultData = {
 export const Addordermodal = ({ isOpen, setIsOpen }) => {
   const dispatch = useDispatch();
 
-  const [departments, setDepartments] = useState([{ product_name: "", product_price: "" }]);
+  const [products, setDepartments] = useState([{ product_name: "", product_price: "" }]);
 
 
-  const { todo } = useSelector((state) => state.discount);
+  const { singleorder } = useSelector((state) => state.order);
 
   const modalRef = useRef(null);
 
@@ -42,7 +42,7 @@ export const Addordermodal = ({ isOpen, setIsOpen }) => {
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "departments",
+    name: "products",
   });
 
 
@@ -50,22 +50,38 @@ export const Addordermodal = ({ isOpen, setIsOpen }) => {
     reset(defaultData);
   }, [reset]);
 
+
+  useEffect(() => {
+    reset(singleorder)
+  }, [singleorder])
+  
  
   const addDepartment = () => {
     append({ product_name: "", product_price: "" });
   };
 
   const removeDepartment = (index) => {
-    unregister(`departments[${index}].product_name`);
-    unregister(`departments[${index}].product_price`);
+    unregister(`products[${index}].product_name`);
+    unregister(`products[${index}].product_price`);
     remove(index);
   };
 
   const onSubmit = async (data) => {
    
-    dispatch(addorder({...data,products:data.departments}))
+    let yup
+    if (singleorder) {
+      let id = data["_id"]
+      delete data["_id"]; 
+      console.log("from here")
+       yup = dispatch(updateOrder({id,data}))     
+    }
+    else
+    {
+      yup = dispatch(addorder(data))
+    }  
+    setIsOpen(false)
 
-    console.log("Form Submitted:", data);
+    console.log("Form Submitted:", data ,"coming from backend" ,yup.arg);
   };
 
 
@@ -243,7 +259,7 @@ export const Addordermodal = ({ isOpen, setIsOpen }) => {
               </label>
               <input
                 type="text"
-                {...register(`departments[${index}].product_name`, { required: true })}
+                {...register(`products[${index}].product_name`, { required: true })}
                 defaultValue={field.product_name}
                 className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Product Name"
@@ -257,7 +273,7 @@ export const Addordermodal = ({ isOpen, setIsOpen }) => {
               </label>
               <input
                 type="text"
-                {...register(`departments[${index}].product_price`, { required: true })}
+                {...register(`products[${index}].product_price`, { required: true })}
                 defaultValue={field.product_price}
                 className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Product Price"

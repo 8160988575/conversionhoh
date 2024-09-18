@@ -5,7 +5,7 @@ import { fetchTodos } from "../features/discount/DiscountSlice.js";
 import './css/Discountshowcss.css'
 import { ToastContainer, toast , Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { fetchorder } from "../features/orders/OrderSlice.js";
+import { fetchorder, updateSingleOrder } from "../features/orders/OrderSlice.js";
 import { Addordermodal } from "./Addordermodal.jsx";
 
 export const Ordershow = () => {
@@ -43,7 +43,8 @@ export const Ordershow = () => {
   }, []);
 
   useEffect(() => {
-    console.log("todos use effect got called", order);
+
+    console.log("yup use effect got called", order);
     setFixedDiscountData(order);
     setData(order);
     console.log("check", check);
@@ -153,7 +154,9 @@ export const Ordershow = () => {
           </thead>
           <tbody>
             {currentRows?.map((row, index) => (
-              <tr key={index}>
+              <tr key={index} onClick={()=>{dispatch(updateSingleOrder(row))
+                setIsOpen(true)
+              }}>
                 <td>{row.name}</td>
                 <td>{row.number}</td>
                 <td>{row.total_amount}</td>

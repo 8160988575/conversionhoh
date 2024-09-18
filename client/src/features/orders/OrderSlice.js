@@ -18,13 +18,14 @@ export const addorder = createAsyncThunk('order/addorder', async (text) => {
 });
 
 // Update a todo
-export const updateOrder = createAsyncThunk('todos/updateTodo', async ({ id, updatedTodo }) => {
-  const response = await fetch(`http://localhost:5000/api/todos/${id}`, {
+export const updateOrder = createAsyncThunk('order/updateOrder', async ({id,data}) => {
+  const response = await fetch(`http://localhost:5000/order/updateorder`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(updatedTodo),
+    body: JSON.stringify({id,data}),
   });
-  return response.json();
+  const result = await response.json()
+  return {response:result,id,data}
 });
 
 // Delete a todo
@@ -37,10 +38,15 @@ const DiscountSlice = createSlice({
   name: 'order',
   initialState: {
     order: [],
+    singleorder:{},
     status: 'idle',
     error: null,
   },
-  reducers: {},
+  reducers: {
+    updateSingleOrder: (state, action) => {
+      state.singleorder = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchorder.pending, (state) => {
@@ -48,6 +54,7 @@ const DiscountSlice = createSlice({
       })
       .addCase(fetchorder.fulfilled, (state, action) => {
         state.status = 'succeeded';
+        console.log("sucess")
         state.order = action.payload;
       })
       .addCase(fetchorder.rejected, (state, action) => {
@@ -57,13 +64,29 @@ const DiscountSlice = createSlice({
       .addCase(addorder.fulfilled, (state, action) => {
         // state.todos.push(action.payload);
       })
+      // .addCase(updateOrder.fulfilled, (state, action) => {
+      //   console.log("updateorder fulfilled")
+      //   const {_id,data} = action.payload;
+      //   console.log("data",data,id)
+      //   const existingTodoIndex = state.order.findIndex(todo => todo.id === _id);
+      //   if (existingTodoIndex) {
+      //     console.log("existingTodoIndex",existingTodoIndex)
+      //     state.order[existingTodoIndex] = data;
+      //   }
+      // })
       .addCase(updateOrder.fulfilled, (state, action) => {
-        // const updatedTodo = action.payload;
-        // const existingTodo = state.todos.find(todo => todo.id === updatedTodo.id);
-        // if (existingTodo) {
-        //   existingTodo.text = updatedTodo.text;
-        //   existingTodo.completed = updatedTodo.completed;
-        // }
+        console.log("updateOrder fulfilled");
+        const { id, data } = action.payload; // Use 'id' from payload
+        console.log("data", data, id);
+      
+        // Find the index of the existing order by `id`
+        const existingTodoIndex = state.order.findIndex((todo) => todo._id === id);
+      
+        // Ensure that the index is not -1 (i.e., item was found)
+        if (existingTodoIndex !== -1) {
+          console.log("existingTodoIndex", existingTodoIndex);
+          state.order[existingTodoIndex] = data; // Update the existing order
+        }
       })
       .addCase(deleteTodo.fulfilled, (state, action) => {
         // state.todos = state.todos.filter(todo => todo.id !== action.payload);
@@ -71,4 +94,5 @@ const DiscountSlice = createSlice({
   },
 });
 
+export const { updateSingleOrder } = DiscountSlice.actions;
 export default DiscountSlice.reducer;
