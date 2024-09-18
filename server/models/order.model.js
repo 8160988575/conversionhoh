@@ -56,6 +56,10 @@ const orderSchema = new mongoose.Schema({
   cuid: {
     type: String,
     required: false
+  },
+  products:{
+    type: Array,
+    required: false
   }
 },{
     collection: 'order_data_short'  // Specify the existing collection name

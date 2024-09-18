@@ -8,11 +8,11 @@ export const fetchorder = createAsyncThunk('order/fetchorder', async () => {
 });
 
 // Add new todo
-export const addorder = createAsyncThunk('todos/addTodo', async (text) => {
-  const response = await fetch('http://localhost:5000/api/todos', {
+export const addorder = createAsyncThunk('order/addorder', async (text) => {
+  const response = await fetch('http://localhost:5000/order/addorder', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text }),
+    body: JSON.stringify(text),
   });
   return response.json();
 });

@@ -11,6 +11,7 @@ import { Bounce, toast } from "react-toastify";
 import { MdDelete } from "react-icons/md";
 import { MdOutlineCloseFullscreen } from "react-icons/md";
 import { useFieldArray, useForm } from "react-hook-form";
+import { addorder } from "../features/orders/OrderSlice";
 
 const defaultData = {
   name: "harsh new",
@@ -60,7 +61,10 @@ export const Addordermodal = ({ isOpen, setIsOpen }) => {
     remove(index);
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+   
+    dispatch(addorder({...data,products:data.departments}))
+
     console.log("Form Submitted:", data);
   };
 
