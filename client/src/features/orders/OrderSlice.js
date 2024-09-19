@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // Fetch todos
 export const fetchorder = createAsyncThunk('order/fetchorder', async () => {
   const response = await fetch('http://localhost:5000/order/getallorder');
-  console.log("again fetching from database")
+  console.log("again fetching from database for order")
   return response.json();
 });
 
@@ -54,12 +54,14 @@ const DiscountSlice = createSlice({
       })
       .addCase(fetchorder.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        console.log("sucess")
+        console.log("success")
+        console.log("getting yup ordes",action.payload)
         state.order = action.payload;
       })
       .addCase(fetchorder.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
+        console.log("error",action.error.message)
       })
       .addCase(addorder.fulfilled, (state, action) => {
         // state.todos.push(action.payload);

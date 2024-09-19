@@ -24,16 +24,8 @@ export const Ordershow = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   
-  // pagination
-  useEffect(() => {
-    const indexOfLastRow = currentPage * rowsPerPage;
-    const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-    setcurrentRows(discountData?.slice(indexOfFirstRow, indexOfLastRow));
 
-    settotalPages(Math.ceil(discountData?.length / rowsPerPage));
-    console.log("pagination called");
-  }, [search, discountData, currentPage, rowsPerPage]);
-
+  
   useEffect(() => {
     console.log("this use effect got called");
     if (status === "idle") {
@@ -42,26 +34,50 @@ export const Ordershow = () => {
     }
   }, []);
 
+  
+
+
+
+
   useEffect(() => {
 
     console.log("yup use effect got called", order);
     setFixedDiscountData(order);
     setData(order);
-    console.log("check", check);
+    // console.log("check", check);
   }, [order]);
 
-  const searchhandle = (e) => {
-    console.log("at the searches");
-    const updatedata = fixedDiscountData.filter((row) => {
+  
+  useEffect(() => {
+    if (search) { 
+      console.log("at the searches");
+    const updatedata = order.filter((row) => {
       return Object.values(row)
         .toString()
         .toLowerCase()
-        .includes(e.target.value?.toLowerCase());
+        .includes(search?.toLowerCase());
     });
-    setsearch(e.target.value);
+    console.log("updated data with search",updatedata)
     setData(updatedata);
-    setCurrentPage(1);
-  };
+    }
+    else
+    {
+      setData(order);
+    }    
+   
+  }, [search,order])
+
+
+  // pagination
+  useEffect(() => {
+    const indexOfLastRow = currentPage * rowsPerPage;
+    const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+    setcurrentRows(discountData?.slice(indexOfFirstRow, indexOfLastRow));
+    settotalPages(Math.ceil(discountData?.length / rowsPerPage));
+    console.log("pagination called");
+  }, [search,order,discountData,currentPage]);
+
+  
 
  
 
@@ -136,7 +152,7 @@ export const Ordershow = () => {
             type="text"
             name="search"
             value={search}
-            onChange={searchhandle}
+            onChange={(e)=>setsearch(e.target.value)}
           />
 
           <label onClick={() => setIsOpen(true)} className="btn text-white bg-slate-700">
