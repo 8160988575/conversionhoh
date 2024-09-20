@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { getallcustomer } from '../features/customer/CusotmerSlice';
 import { useState } from 'react';
@@ -22,6 +22,8 @@ export const Showcustomers = () => {
   const {customer , status} = useSelector((state)=>state.customer)
   const [isOpen,setIsOpen] = useState(false)
   const [search,setsearch] = useState("")
+
+  
  
 
   //useEffects
@@ -32,11 +34,42 @@ export const Showcustomers = () => {
     {
     let yup = dispatch(getallcustomer())
     console.log("yup",yup)
+    setsearch("")
     }
-
-  
-
   }, [])
+
+
+  // let yupdata = useMemo(()=>{
+  //   console.log("from memo")
+  //   return customer.filter(item=> {
+  //   console.log("fd")
+  //   return Object.values(item).toString().includes(search)
+    
+  // })},[customer,search])
+// search useEffect
+  const [yupdata,setyupdata] = useState([])
+useEffect(() => {
+ 
+  setyupdata(customer.filter(item=>Object.values(item).toString().includes(search)))
+  console.log("i am getting called")
+}, [customer,search])
+
+
+//paginationuseEffect
+const [currentpage,setCurrentPage] = useState(1)
+const [totalPages,settotalPages] = useState()
+const [currentrows,setcurrentRows] = useState([])
+useEffect(() => {
+  
+   console.log("all data we got is",yupdata)
+   setcurrentRows(yupdata.filter((item,index)=>index<3))
+
+}, [yupdata])
+
+
+
+// 1 pela [] thi fetching , pachi search vada mathi e filter , and pachi pagination
+
 
   return (
    <>
@@ -65,7 +98,7 @@ export const Showcustomers = () => {
             </tr>
           </thead>
           <tbody>
-            {customer?.map((row, index) => (
+            {currentrows?.map((row, index) => (
               <tr className='' key={index} onClick={ ()=>{dispatch(updateSingleOrder(row))
                 setIsOpen(true)
               }}
