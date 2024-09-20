@@ -113,7 +113,7 @@ export const Ordershow = () => {
     );
     while (i <= totalPages) {
       let vat = i;
-      console.log("hi");
+      // console.log("hi");
       ar.push(
         <button
           id={i}
@@ -139,6 +139,7 @@ export const Ordershow = () => {
     return ar;
   };
 
+  console.log("all the time")
   
 
   return (

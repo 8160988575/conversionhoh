@@ -16,6 +16,7 @@ import { Discountshowcopy } from './components/Discountshowcopy';
 import { CounterImpliment } from './components/CounterImpliment';
 import { Ordershow } from './components/Ordershow';
 import Hookform from './components/Hookform';
+import { Showcustomers } from './components/Showcustomers';
 
 
 
@@ -102,6 +103,11 @@ function App() {
         {
           path: "hookform",
           element: <Hookform />, // Public route
+         
+        },
+        {
+          path: "Customershow",
+          element: <Showcustomers />, // Public route
          
         },
      

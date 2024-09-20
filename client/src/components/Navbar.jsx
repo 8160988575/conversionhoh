@@ -10,7 +10,7 @@ const Navbar = () => {
  
     const yup = <>
     <li><Link to='/Ordershow' onClick={toggleDropdown}>Order's</Link></li>
-    <li><Link to='/'>Customer's</Link></li>
+    <li><Link to='/Customershow' onClick={toggleDropdown}>Customer's</Link></li>
     <li><Link to='/Discountshow' onClick={toggleDropdown}>Discount's</Link></li>
     <li><Link to='/Discountadd' onClick={toggleDropdown}>Add_Discount</Link></li>
     <li><Link to='/contactus' onClick={toggleDropdown}>ConactUs</Link></li>

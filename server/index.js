@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 
 import discountRoute from './router/freedish.router.js'
 import orderRoute from './router/order.router.js'
+import customerRoute from './router/customer.router.js'
 
 dotenv.config()
 const app = express()
@@ -26,6 +27,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/userbase").then(()=>{
 
 app.use('/discount',discountRoute);
 app.use('/order',orderRoute);
+app.use('/customer',customerRoute);
 
 
 

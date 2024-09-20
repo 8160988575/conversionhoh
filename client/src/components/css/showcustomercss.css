@@ -1,0 +1,12 @@
+.custom-row {
+    height: 50px; /* Adjust row height */
+  }
+  
+  .custom-cell {
+    height: 60px; 
+    max-width: 150px; /* Set the maximum width */
+    overflow: hidden; /* Ensure content overflow is hidden */
+    white-space: nowrap; /* Prevent text wrapping */
+    text-overflow: ellipsis; /* Clip overflowing text without ellipsis */
+  }
+  

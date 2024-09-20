@@ -3,13 +3,15 @@ import counterReducer from '../features/counter/counterSlice';
 import todoSlice from '../features/todo/todoSlice';
 import DiscountSlice from '../features/discount/DiscountSlice';
 import OrderSlice from '../features/orders/OrderSlice';
+import CusotmerSlice from '../features/customer/CusotmerSlice';
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
     yuptodos:todoSlice,
     discount:DiscountSlice,
-    order:OrderSlice,    
+    order:OrderSlice, 
+    customer:CusotmerSlice   
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
