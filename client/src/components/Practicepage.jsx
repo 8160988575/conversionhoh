@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Practicepage2 } from './Practicepage2';
 
 export const Practicepage = () => {
 
@@ -24,11 +25,14 @@ export const Practicepage = () => {
 // })}
 //     </div>
 //   )
-return (
+const [isopen, setisopen] = useState(false)
+return ( <>
   <div className='bg-red-300 w-1/3 flex items-center justify-around flex m-auto mt-4 rounded-2xl shadow-black shadow-2xl'>
-   {Array(total).fill(null).map((_, index) => <p key={index}>{index + 1}</p>
+   {Array(total).fill(null).map((_, index) => <p key={index}>{index + 1}</p>)}
   
-)}
   </div>
+  <button onClick={()=>setisopen(c=>!c)} className='bg-slate-200 p-4 mx-auto absolute right-5 top-20 cursor-pointer active:bg-violet-500 focus:bg-violet-300'>Add Something</button>
+  {isopen && <Practicepage2 setisopen/>}
+  </>
 )
 }

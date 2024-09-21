@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getallcustomer } from '../features/customer/CusotmerSlice';
 import { useState } from 'react';
 import './css/Showcustomercss.css'
+import { Addcustomer } from './Addcustomer';
 
 
 
@@ -52,6 +53,7 @@ useEffect(() => {
  
   setyupdata(customer.filter(item=>Object.values(item).toString().includes(search)))
   console.log("i am getting called")
+  setCurrentPage(1)
 }, [customer,search])
 
 
@@ -120,9 +122,12 @@ summary:
         </table>
 
         <div className="pagination my-10 flex align-middle">
-          <div className="inline-flez join justify-around gap-2 bg-slate-500 text-yellow-50 font-bold m-auto ">{Array(totalPages).fill(null).map((_,index)=><p  onClick={()=>setCurrentPage(index+1)} className='hover:cursor-pointer p-4 px-9' key={index}>{index+1}</p>)}</div>
+          <div className="inline-flez join justify-around gap-2 bg-slate-500 text-yellow-50 font-bold m-auto ">{Array(totalPages).fill(null).map((_,index)=><p  onClick={()=>setCurrentPage(index+1)} className={`hover:cursor-pointer hover:bg-slate-600 rounded-xl p-4 px-9 ${currentpage === index+1 ? "bg-slate-600" : ""}`} key={index}>{index+1}</p>)}</div>
         
         </div>
+       {isOpen && <Addcustomer setIsOpen={setIsOpen} isOpen />}
+   
+
       </div>
    </>
   )
