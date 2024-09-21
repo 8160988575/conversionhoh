@@ -57,20 +57,27 @@ useEffect(() => {
 
 //paginationuseEffect
 const [currentpage,setCurrentPage] = useState(1)
-const [totalPages,settotalPages] = useState()
+const [totalPages,settotalPages] = useState(0)
 const [currentrows,setcurrentRows] = useState([])
+const [rowperpage,setrowperpage] = useState(3)
 useEffect(() => {
-  
-   console.log("all data we got is",yupdata)
-   setcurrentRows(yupdata.filter((item,index)=>index<3))
-
-}, [yupdata])
-
-
-
-// 1 pela [] thi fetching , pachi search vada mathi e filter , and pachi pagination
+  // console.log(Math.ceil((yupdata.length/rowperpage)))
+  settotalPages(Math.ceil((yupdata.length/rowperpage)))
+  setcurrentRows(yupdata.slice(currentpage*rowperpage-rowperpage,currentpage*rowperpage))
+   
+}, [yupdata,currentpage])
 
 
+// filtering for pagination
+
+
+
+/*
+summary:
+1. [] -> main fetching --> take order
+2. [Order,search] --> order ma search apply and take filtereddata(order2)
+3. [order2,currentpage] --> search na output vada ma pagination 
+*/
   return (
    <>
     <div className="table-container">
@@ -112,9 +119,9 @@ useEffect(() => {
           </tbody>
         </table>
 
-        <div className="pagination my-10">
-          <div className="join flex justify-center">{2}</div>
-          {`current page is ${"2"}`}
+        <div className="pagination my-10 flex align-middle">
+          <div className="inline-flez join justify-around gap-2 bg-slate-500 text-yellow-50 font-bold m-auto ">{Array(totalPages).fill(null).map((_,index)=><p  onClick={()=>setCurrentPage(index+1)} className='hover:cursor-pointer p-4 px-9' key={index}>{index+1}</p>)}</div>
+        
         </div>
       </div>
    </>

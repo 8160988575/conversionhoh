@@ -17,6 +17,7 @@ import { CounterImpliment } from './components/CounterImpliment';
 import { Ordershow } from './components/Ordershow';
 import Hookform from './components/Hookform';
 import { Showcustomers } from './components/Showcustomers';
+import { Practicepage } from './components/Practicepage';
 
 
 
@@ -108,6 +109,11 @@ function App() {
         {
           path: "Customershow",
           element: <Showcustomers />, // Public route
+         
+        },
+        {
+          path: "practicepage",
+          element: <Practicepage />, // Public route
          
         },
      

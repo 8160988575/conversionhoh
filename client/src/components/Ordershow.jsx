@@ -25,7 +25,7 @@ export const Ordershow = () => {
   const [isOpen, setIsOpen] = useState(false);
   
 
-  
+   
   useEffect(() => {
     console.log("this use effect got called");
     if (status === "idle") {
@@ -33,11 +33,6 @@ export const Ordershow = () => {
       console.log("start use effect got called", order);
     }
   }, []);
-
-  
-
-
-
 
   useEffect(() => {
 
@@ -75,13 +70,9 @@ export const Ordershow = () => {
     setcurrentRows(discountData?.slice(indexOfFirstRow, indexOfLastRow));
     settotalPages(Math.ceil(discountData?.length / rowsPerPage));
     console.log("pagination called");
-  }, [search,order,discountData,currentPage]);
+  }, [discountData,currentPage]);
 
   
-
- 
-
-
   const nextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
@@ -101,7 +92,8 @@ export const Ordershow = () => {
   const goToPage = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
+ 
+  
   const getbuton = () => {
     let i = 1;
     let ar = [];
@@ -138,9 +130,17 @@ export const Ordershow = () => {
     // console.log("at the paginatio")
     return ar;
   };
+  getbuton()
 
-  console.log("all the time")
+  console.log("all the time");   
+
+
+
+
+  let check22 = Array(totalPages).fill(null).map((_,index)=><p onClick={()=>setCurrentPage(index+1)} className={`hover:bg-slate-300 hover:cursor-alias bg-white p-4 min-w-16 text-center border-collapse ${index == totalPages-1 ? "bg-slate-400":"bg-slate-400"}`}>{index+1}</p>)
   
+ check22.unshift(<p style={{borderRadius:"25px 0px 0px 25px"}} onClick={()=>setCurrentPage(c=>c-1)} className={`hover:bg-slate-300 hover:cursor-pointer bg-white p-4 min-w-16 text-center border-collapse ${true ? "bg-slate-400":"bg-slate-400"}`}>{"prev"}</p>)
+ check22.push(<p style={{borderRadius:"0px 25px 25px 0px"}} onClick={()=>setCurrentPage(c=>c+1)} className={`hover:bg-slate-300 hover:cursor-pointer bg-white p-4 min-w-16 text-center border-collapse ${true ? "bg-slate-400":"bg-slate-400"}`}>{"next"}</p>)
 
   return (
     <div>
@@ -155,6 +155,7 @@ export const Ordershow = () => {
             value={search}
             onChange={(e)=>setsearch(e.target.value)}
           />
+          <p>{currentPage}</p>
 
           <label onClick={() => setIsOpen(true)} className="btn text-white bg-slate-700">
             Add Order
@@ -183,9 +184,12 @@ export const Ordershow = () => {
           </tbody>
         </table>
 
-        <div className="pagination my-10">
-          <div className="join flex justify-center">{...getbuton()}</div>
-          {`current page is ${currentPage}`}
+        <div className="pagination flex justify-center mt-14" >
+          <div className="join flex justify-center border-2 w-1/2 rounded-2xl">
+            {check22}
+            
+          </div>
+        
         </div>
       </div>
       {isOpen && (
