@@ -157,7 +157,10 @@ export const Ordershow = () => {
           />
           <p>{currentPage}</p>
 
-          <label onClick={() => setIsOpen(true)} className="btn text-white bg-slate-700">
+          <label onClick={() =>{ 
+             setIsOpen(true)
+
+          }} className="btn text-white bg-slate-700">
             Add Order
           </label>
         </div>

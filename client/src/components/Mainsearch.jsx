@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import API from "../../api.js";
 import './css/CssMainsearch.css'
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTodos } from "../features/discount/DiscountSlice.js";
+import { fetchorder } from "../features/orders/OrderSlice.js";
 
 
 
@@ -10,18 +13,18 @@ export const Mainsearch = () => {
 const [searchdata, setsearchdata] = useState("")
  const [discountdata, setdiscountdata] = useState([])
  const [fixdiscountdata, setfixdiscountdata] = useState([])
- const [orderdata, setorderdata] = useState("second")
+ const [orderdata, setorderdata] = useState([])
 
+ const {todos} = useSelector((state) => state.discount)
+ const {order} = useSelector((state) => state.order)
+  const  dispatch =   useDispatch()
  useEffect(() => {
   const getdata = async () => {
     try {
-        // const response = await fetch("http://localhost:5000/discount/getdiscountdata")
-        const response = await fetch(`${import.meta.env.VITE_APP_BASE_URL}/discount/getalldiscountdata`)
-        // const response = await  API.get('/getdiscountdata')
-        const data = await response.json()
-        setdiscountdata(data)
-        setfixdiscountdata(data)
-        console.log(data)
+
+      await dispatch(fetchTodos())
+      await dispatch(fetchorder())
+
         
     } catch (error) {
          console.log("error we got",error)
@@ -31,13 +34,30 @@ const [searchdata, setsearchdata] = useState("")
   getdata()
  }, [])
  
+
  useEffect(() => {
-   if(searchdata.length > 0){
+  console.log("setting updat",todos)
+  setdiscountdata(todos)
+ }, [todos])
+ 
+ useEffect(() => {
+  console.log(order)
+  setorderdata(order)
+ }, [order])
+ 
+
+ useEffect(() => {
+
+   if(searchdata.length > 0){    
+
      const getdata = async () => {
        try {
         console.log("fixdiscountdata",fixdiscountdata)
-         const samedata = fixdiscountdata.filter((item=>item.number?.toString()?.toLowerCase()?.includes(searchdata.toLowerCase()) ||item.Discount_type?.toLowerCase()?.includes(searchdata.toLowerCase())))
+         const samedata = todos.filter((item=>item.number?.toString()?.toLowerCase()?.includes(searchdata.toLowerCase()) ||item.Discount_type?.toLowerCase()?.includes(searchdata.toLowerCase())))
          setdiscountdata(samedata)
+
+         const samedataorder = orderdata.filter(data=>Object.values(data).toString().includes(searchdata))
+         setorderdata(samedataorder)
            
        } catch (error) {
             console.log("error we got",error)
@@ -47,7 +67,8 @@ const [searchdata, setsearchdata] = useState("")
      getdata()
    }
    else{  
-     setdiscountdata(fixdiscountdata)
+     setdiscountdata(todos)
+     setorderdata(order)
    }
  
  }, [searchdata])
@@ -101,6 +122,7 @@ const [dropdownOpen, setDropdownOpen] = useState(false);
         </div>
         <div className="Discounts min-w-80">
           <ul className="menu bg-base-200 rounded-box">
+          <li className="text-center mb-2 font-bold">Discount's</li>
            {
             discountdata.map((data)=>{
               return(
@@ -112,24 +134,19 @@ const [dropdownOpen, setDropdownOpen] = useState(false);
            }
           </ul>
         </div>
+
         <div className="Orders min-w-80">
-          <ul className="menu bg-base-200 rounded-box ">
-            <li>
-              <a> Item 1Item 1Item 1Item 1Item 1Item 1Item 1</a>
-            </li>
-            <li>
-              <a>Item 2</a>
-            </li>
-            <li>
-              <a>Item 3</a>
-            </li>
-            <li>
-              <a>Item 1</a>
-            </li>
-            <li>
-              <a>Item 2</a>
-            </li>
-         
+          <ul className="menu bg-base-200 rounded-box">
+          <li className="text-center mb-2 font-bold">Order's</li>
+           {
+            orderdata.map((data)=>{
+              return(
+                <li key={data._id}>
+                  <a onClick={()=>usethisdiscount(data._id)}>{data.number+"-"+data.name}</a>
+                </li>
+              )
+            })
+           }
           </ul>
         </div>
         <div className="flex-none fixed right-10 bottom-10">

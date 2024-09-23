@@ -11,22 +11,9 @@ import { Bounce, toast } from "react-toastify";
 import { MdDelete } from "react-icons/md";
 import { MdOutlineCloseFullscreen } from "react-icons/md";
 import { useFieldArray, useForm } from "react-hook-form";
-import { addorder, updateOrder } from "../features/orders/OrderSlice";
+import { addorder, updateOrder, updateSingleOrder } from "../features/orders/OrderSlice";
 
-const defaultData = {
-  name: "harsh new",
-  number: "8160988575",
-  total_amount: "55",
-  payment_type: "online", // Options: "online", "offline", "mix"
-  product_status: "deliverd",
-  payment_status: "paid",
-  delivery_date: "2024-08-17",
-  products: [
-    { product_name: "Product A", product_price: "50" },
-    { product_name: "Product B", product_price: "30" },
-    { product_name: "Product c", product_price: "30" }
-  ]
-};
+
 
 export const Addordermodal = ({ isOpen, setIsOpen }) => {
   const dispatch = useDispatch();
@@ -45,13 +32,11 @@ export const Addordermodal = ({ isOpen, setIsOpen }) => {
     name: "products",
   });
 
-
-  useEffect(() => {
-    reset(defaultData);
-  }, [reset]);
+ 
 
 
   useEffect(() => {
+    console.log("at the single order",singleorder)
     reset(singleorder)
   }, [singleorder])
   
@@ -98,8 +83,13 @@ export const Addordermodal = ({ isOpen, setIsOpen }) => {
                 <p
                   className="pointer-cursor"
                   onClick={() => {
+                    reset({})                
+                    dispatch(updateSingleOrder({}))
                     setIsOpen(false);
-                    dispatch(todohandle({}));
+                    console.log("calling closed")
+                    // dispatch(todohandle({}));
+                    
+                    
                   }}
                 >
                   <MdOutlineCloseFullscreen />
