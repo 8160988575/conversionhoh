@@ -23,6 +23,7 @@ export const Showcustomers = () => {
   const {customer , status} = useSelector((state)=>state.customer)
   const [isOpen,setIsOpen] = useState(false)
   const [search,setsearch] = useState("")
+  const [haschanged,sethaschanged] = useState(false)
 
   
  
@@ -50,20 +51,31 @@ export const Showcustomers = () => {
 // search useEffect
   const [yupdata,setyupdata] = useState([])
 useEffect(() => {
+
   console.log("got called with customer change",customer)
   if(search){
   setyupdata(customer.filter(item=>Object.values(item).toString().includes(search)))
   console.log("i am getting called")
-  setCurrentPage(1)
+  
   }
   else
   {
     setyupdata(customer)
   }
+  if (search && !haschanged) {
+    setCurrentPage(1)
+  }
+  if (!search && !haschanged) {
+    setCurrentPage(1)
+  }
+  sethaschanged(false)
 }, [customer,search])
 
 
 //paginationuseEffect
+
+
+
 const [currentpage,setCurrentPage] = useState(1)
 const [totalPages,settotalPages] = useState(0)
 const [currentrows,setcurrentRows] = useState([])
@@ -132,7 +144,7 @@ summary:
           <div className="inline-flez join justify-around gap-2 bg-slate-500 text-yellow-50 font-bold m-auto ">{Array(totalPages).fill(null).map((_,index)=><p  onClick={()=>setCurrentPage(index+1)} className={`hover:cursor-pointer hover:bg-slate-600 rounded-xl p-4 px-9 ${currentpage === index+1 ? "bg-slate-600" : ""}`} key={index}>{index+1}</p>)}</div>
         
         </div>
-       {isOpen && <Addcustomer  setIsOpen={setIsOpen} isOpen/>}
+       {isOpen && <Addcustomer  setIsOpen={setIsOpen} isOpen haschanged sethaschanged={sethaschanged}/>}
    
 
       </div>

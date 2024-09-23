@@ -137,7 +137,7 @@ export const Ordershow = () => {
 
 
 
-  let check22 = Array(totalPages).fill(null).map((_,index)=><p onClick={()=>setCurrentPage(index+1)} className={`hover:bg-slate-300 hover:cursor-alias bg-white p-4 min-w-16 text-center border-collapse ${index == totalPages-1 ? "bg-slate-400":"bg-slate-400"}`}>{index+1}</p>)
+  let check22 = Array(totalPages).fill(null).map((_,index)=><p onClick={()=>setCurrentPage(index+1)} className={`hover:bg-slate-300 hover:cursor-alias bg-white p-4 min-w-16 text-center border-collapse ${currentPage == index+1 ? "bg-red-400":"bg-slate-400"} ${index == totalPages-1 ? "bg-slate-400":"bg-slate-400"}`}>{index+1}</p>)
   
  check22.unshift(<p style={{borderRadius:"25px 0px 0px 25px"}} onClick={()=>setCurrentPage(c=>c-1)} className={`hover:bg-slate-300 hover:cursor-pointer bg-white p-4 min-w-16 text-center border-collapse ${true ? "bg-slate-400":"bg-slate-400"}`}>{"prev"}</p>)
  check22.push(<p style={{borderRadius:"0px 25px 25px 0px"}} onClick={()=>setCurrentPage(c=>c+1)} className={`hover:bg-slate-300 hover:cursor-pointer bg-white p-4 min-w-16 text-center border-collapse ${true ? "bg-slate-400":"bg-slate-400"}`}>{"next"}</p>)

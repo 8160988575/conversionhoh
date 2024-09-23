@@ -29,7 +29,8 @@ export const updatecustomer = createAsyncThunk('customer/updatecustomer',async (
 
 
 export  const deletecustomer = createAsyncThunk('customer/delete',async(id)=>{
-    const response = await fetch('http://localhost:5000/customer/deletecustomer/:id',{
+    console.log("id for the delete",id)
+    const response = await fetch(`http://localhost:5000/customer/deletecustomer/${id}`,{
         method: 'DELETE'
     })
     return id

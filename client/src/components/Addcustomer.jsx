@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addcustomer, deletecustomer, updatecustomer } from '../features/customer/CusotmerSlice';
 
 
-export const Addcustomer = ({setIsOpen,isOpen}) => {
+export const Addcustomer = ({setIsOpen,isOpen,sethaschanged}) => {
   const {singlecustomer} = useSelector((state)=>state.customer)
 
   const dispatch = useDispatch();
@@ -16,7 +16,8 @@ export const Addcustomer = ({setIsOpen,isOpen}) => {
     const onSubmit = async(data) => {   
 
      if (singlecustomer) {
-      const check = dispatch(updatecustomer(data))      
+      const check = dispatch(updatecustomer(data)) 
+      sethaschanged(true)     
      }
      else
      {
@@ -29,16 +30,18 @@ export const Addcustomer = ({setIsOpen,isOpen}) => {
 
      useEffect(() => {
       reset(singlecustomer)
+      
      }, [singlecustomer])
      
         useEffect(() => {
-          // reset()
+          
           // Function to handle the keydown event
           const handleKeyDown = (event) => {
            
             if (event.key === "Escape") {
                 console.log("hi")
-                setIsOpen(false)              
+                setIsOpen(false)       
+                
             }
           };      
           // Adding the event listener
@@ -57,12 +60,13 @@ export const Addcustomer = ({setIsOpen,isOpen}) => {
   return (<>
     <div>
        {/* <div className='absolute top-0  overflow-hidden flex justify-center items-center '> */}
-        <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 md:w-96 rounded-xl h-3/4 overflow-scroll bg-blue-300 overflow-scroll pb-10'>
+        <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 md:w-96 rounded-xl h-3/4 bg-blue-300 overflow-scroll pb-10'>
         <div className='flex justify-between m-3 mb-6 text-xl'>
         <p onClick={()=>setIsOpen(!isOpen)}><MdCloseFullscreen /></p>
         <p className='text-center text-base mt-4'>Add Customer</p>
         <p onClick={()=>{dispatch(deletecustomer(singlecustomer?._id))
           setIsOpen(!isOpen)
+          sethaschanged(true)
         }}><MdDelete /></p>
         </div>
         

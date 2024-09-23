@@ -41,17 +41,17 @@ router.post('/addcustomer',async (req,res)=>{
 router.put('/updatecustomer',async(req,res)=>{
     
    const yup =await Customer.updateOne({_id:req.body._id},{$set:req.body})
-      
      res.json(yup)
 
 })
 
 
 router.delete('/deletecustomer/:id',async(req,res)=>{
-    const {id} = req.params.id
+    const {id} = req.params
+    console.log(id)
     
     const yup =await Customer.deleteOne({_id:id})
-       
+       console.log("i am at the backend of delete",yup)
       res.json(yup)
  
  })
