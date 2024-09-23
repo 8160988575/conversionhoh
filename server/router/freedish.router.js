@@ -16,6 +16,11 @@ router.post('/adddiscount',async(req,res)=>{
     res.json(data)
 })
 
+router.put('/updatediscount',async(req,res)=>{
+    const data = await Freedish.updateOne({_id:req.body._id},{$set: req.body})
+    res.json(data)
+})
+
 // all data (Discountshow)
 router.get('/getalldiscountdata',async(req,res)=>{
    setTimeout(async() => {

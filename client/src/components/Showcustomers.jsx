@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from "react-redux";
-import { getallcustomer } from '../features/customer/CusotmerSlice';
+import { getallcustomer, getonecustomer } from '../features/customer/CusotmerSlice';
 import { useState } from 'react';
 import './css/Showcustomercss.css'
 import { Addcustomer } from './Addcustomer';
@@ -50,10 +50,16 @@ export const Showcustomers = () => {
 // search useEffect
   const [yupdata,setyupdata] = useState([])
 useEffect(() => {
- 
+  console.log("got called with customer change",customer)
+  if(search){
   setyupdata(customer.filter(item=>Object.values(item).toString().includes(search)))
   console.log("i am getting called")
   setCurrentPage(1)
+  }
+  else
+  {
+    setyupdata(customer)
+  }
 }, [customer,search])
 
 
@@ -82,7 +88,7 @@ summary:
 */
   return (
    <>
-    <div className="table-container">
+    <div className="table-container ">
         <div className="my-4 flex justify-between">
           <input
             className="rounded-xl w-1/3 px-2 sm:text-xs md:text-lg "
@@ -108,8 +114,9 @@ summary:
           </thead>
           <tbody>
             {currentrows?.map((row, index) => (
-              <tr className='' key={index} onClick={ ()=>{dispatch(updateSingleOrder(row))
+              <tr className='' key={index} onClick={ ()=>{dispatch(getonecustomer(row))
                 setIsOpen(true)
+                
               }}
               style={{ maxHeight: '50px'}}>
                 <td className='custom-cell'>{row.name}</td>
@@ -125,7 +132,7 @@ summary:
           <div className="inline-flez join justify-around gap-2 bg-slate-500 text-yellow-50 font-bold m-auto ">{Array(totalPages).fill(null).map((_,index)=><p  onClick={()=>setCurrentPage(index+1)} className={`hover:cursor-pointer hover:bg-slate-600 rounded-xl p-4 px-9 ${currentpage === index+1 ? "bg-slate-600" : ""}`} key={index}>{index+1}</p>)}</div>
         
         </div>
-       {isOpen && <Addcustomer setIsOpen={setIsOpen} isOpen />}
+       {isOpen && <Addcustomer  setIsOpen={setIsOpen} isOpen/>}
    
 
       </div>
