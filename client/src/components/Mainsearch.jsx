@@ -5,22 +5,38 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTodos } from "../features/discount/DiscountSlice.js";
 import { fetchorder } from "../features/orders/OrderSlice.js";
-import { getallcustomer } from "../features/customer/CusotmerSlice.js";
+import { currentworkingwith, getallcustomer } from "../features/customer/CusotmerSlice.js";
 
 
 
 export const Mainsearch = () => {
 
-  const [searchdata, setsearchdata] = useState("")
+ 
   const [discountdata, setdiscountdata] = useState([])
   const [fixdiscountdata, setfixdiscountdata] = useState([])
   const [orderdata, setorderdata] = useState([])
   const [customerdata, setcustomerdata] = useState([])
+  const [workingwithcustomer,setworkingwithcustomer] = useState([]) 
  
 
   const { todos } = useSelector((state) => state.discount)
   const { order } = useSelector((state) => state.order)
-  const { customer } = useSelector((state) => state.customer)
+  const { customer,currentworkingcustomer } = useSelector((state) => state.customer)
+
+  const [searchdata, setsearchdata] = useState(currentworkingcustomer?.number || "")
+  const loadcustomer = () => {
+
+     const gc = customer.filter((ele,index)=>ele.number == searchdata)
+     if (gc[0]) {
+        dispatch(currentworkingwith(gc[0]))
+     }
+     else
+     {
+      console.log("here at the without matching part")
+      dispatch(currentworkingwith({number:searchdata}))
+     }
+
+  }
   
   const dispatch = useDispatch()
   useEffect(() => {
@@ -63,7 +79,7 @@ export const Mainsearch = () => {
 
       const getdata = async () => {
         try {
-          console.log("fixdiscountdata", fixdiscountdata)
+        
           const samedata = todos.filter((item => item.number?.toString()?.toLowerCase()?.includes(searchdata.toLowerCase()) || item.Discount_type?.toLowerCase()?.includes(searchdata.toLowerCase())))
           setdiscountdata(samedata)
 
@@ -120,9 +136,11 @@ export const Mainsearch = () => {
   return (
     <>
       <div className="container mx-auto flex flex-col items-center gap-4 pb-60 relative">
-        <div className="search my-10">
+        <div className="search my-10 flex gap-4">
           <label className="input input-bordered flex items-center gap-2">
-            <input type="text" style={{}} onChange={(e) => setsearchdata(e.target.value)} value={searchdata} className="atmainsearch" placeholder="Search" />
+            <input type="text" style={{}} onChange={(e) => {
+              
+              setsearchdata(e.target.value)}} value={searchdata} className="atmainsearch" placeholder="Search" />
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -136,9 +154,18 @@ export const Mainsearch = () => {
               />
             </svg>
           </label>
+          <button onClick={()=>{!currentworkingcustomer?.number ? loadcustomer(): dispatch(currentworkingwith({}))}} className="bg-blue-700 p-3 rounded-xl text-white">{(currentworkingcustomer?.number)? "unload":"Load"}</button>
+          <button onClick={()=>{dispatch(currentworkingwith({}))}}>ul</button>
         </div>
         <div className="w-80 md:w-2/3 Discounts max-h-72 md:max-h-80  rounded-xl overflow-auto">
           <ul className="w-full menu md:px-9 md:py-5 bg-base-200 rounded-box pb-8">
+  <div className="stats shadow ">
+  <div className="stat">
+    <div className="stat-title">CurrentUser:{currentworkingcustomer?.number}</div>
+    {/* <div className="stat-value">89,400</div>
+    <div className="stat-desc">21% more than last month</div> */}
+  </div>
+</div>
             <li className="text-center mb-2 font-bold text-xl">Customer's</li>
             {
               customerdata.map((data) => {

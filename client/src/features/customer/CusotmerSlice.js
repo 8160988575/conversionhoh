@@ -93,5 +93,5 @@ const CustomerSlice = createSlice({
     }
 })
 
-export const { getonecustomer } = CustomerSlice.actions;
+export const { getonecustomer,currentworkingwith } = CustomerSlice.actions;
 export default CustomerSlice.reducer;
