@@ -5,107 +5,124 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTodos } from "../features/discount/DiscountSlice.js";
 import { fetchorder } from "../features/orders/OrderSlice.js";
+import { getallcustomer } from "../features/customer/CusotmerSlice.js";
 
 
 
 export const Mainsearch = () => {
 
-const [searchdata, setsearchdata] = useState("")
- const [discountdata, setdiscountdata] = useState([])
- const [fixdiscountdata, setfixdiscountdata] = useState([])
- const [orderdata, setorderdata] = useState([])
+  const [searchdata, setsearchdata] = useState("")
+  const [discountdata, setdiscountdata] = useState([])
+  const [fixdiscountdata, setfixdiscountdata] = useState([])
+  const [orderdata, setorderdata] = useState([])
+  const [customerdata, setcustomerdata] = useState([])
+ 
 
- const {todos} = useSelector((state) => state.discount)
- const {order} = useSelector((state) => state.order)
-  const  dispatch =   useDispatch()
- useEffect(() => {
-  const getdata = async () => {
-    try {
+  const { todos } = useSelector((state) => state.discount)
+  const { order } = useSelector((state) => state.order)
+  const { customer } = useSelector((state) => state.customer)
+  
+  const dispatch = useDispatch()
+  useEffect(() => {
+    const getdata = async () => {
+      try {
 
-      await dispatch(fetchTodos())
-      await dispatch(fetchorder())
+        await dispatch(fetchTodos())
+        await dispatch(fetchorder())
+        await dispatch(getallcustomer())
 
-        
-    } catch (error) {
-         console.log("error we got",error)
+
+      } catch (error) {
+        console.log("error we got", error)
+      }
+
     }
- 
-  }
-  getdata()
- }, [])
- 
+    getdata()
+  }, [])
 
- useEffect(() => {
-  console.log("setting updat",todos)
-  setdiscountdata(todos)
- }, [todos])
- 
- useEffect(() => {
-  console.log(order)
-  setorderdata(order)
- }, [order])
- 
 
- useEffect(() => {
+  useEffect(() => {
+    console.log("setting updat", todos)
+    setdiscountdata(todos)
+  }, [todos])
 
-   if(searchdata.length > 0){    
+  useEffect(() => {
+    console.log(order)
+    setorderdata(order)
+  }, [order])
 
-     const getdata = async () => {
-       try {
-        console.log("fixdiscountdata",fixdiscountdata)
-         const samedata = todos.filter((item=>item.number?.toString()?.toLowerCase()?.includes(searchdata.toLowerCase()) ||item.Discount_type?.toLowerCase()?.includes(searchdata.toLowerCase())))
-         setdiscountdata(samedata)
+  useEffect(() => {
+    console.log("customer",customer)
+    setcustomerdata(customer)
+  }, [customer])
 
-         const samedataorder = orderdata.filter(data=>Object.values(data).toString().includes(searchdata))
-         setorderdata(samedataorder)
-           
-       } catch (error) {
-            console.log("error we got",error)
-       }
- 
-     }
-     getdata()
-   }
-   else{  
-     setdiscountdata(todos)
-     setorderdata(order)
-   }
- 
- }, [searchdata])
- 
 
- const usethisdiscount = async(id) => {
-  //  const updatedone = await fetch(`http://localhost:5000/usediscount/${id}`, {
-   const updatedone = await fetch(`${import.meta.env.VITE_APP_BASE_URL}/usediscount/${id}`, {
-     method: "PUT"})
-     let  jsondata = await updatedone.json()
+  useEffect(() => {
+
+    if (searchdata.length > 0) {
+
+      const getdata = async () => {
+        try {
+          console.log("fixdiscountdata", fixdiscountdata)
+          const samedata = todos.filter((item => item.number?.toString()?.toLowerCase()?.includes(searchdata.toLowerCase()) || item.Discount_type?.toLowerCase()?.includes(searchdata.toLowerCase())))
+          setdiscountdata(samedata)
+
+          const samedataorder = order.filter(data => Object.values(data).toString().includes(searchdata))
+          setorderdata(samedataorder)
+
+          const samedatacustomer = customer.filter(data => Object.values(data).toString().includes(searchdata))
+          setcustomerdata(samedatacustomer)
+
+
+        } catch (error) {
+          console.log("error we got", error)
+        }
+
+      }
+      getdata()
+    }
+    else {
+      setdiscountdata(todos)
+      setorderdata(order)
+      setcustomerdata(customer)
+    }
+
+  }, [searchdata])
+
+
+  const usethisdiscount = async (id) => {
+    //  const updatedone = await fetch(`http://localhost:5000/usediscount/${id}`, {
+    const updatedone = await fetch(`${import.meta.env.VITE_APP_BASE_URL}/usediscount/${id}`, {
+      method: "PUT"
+    })
+    let jsondata = await updatedone.json()
     //  setdiscountdata(updatedone)
     setdiscountdata(jsondata)
     setfixdiscountdata(jsondata)
     console.log(jsondata)
-   
- }
 
- const yup = <>
- <li><a>Order's</a></li>
- <li><a>Customer's</a></li>
- <li><Link to='/Discountshow'>Discount's</Link></li>
- <li><Link to='/contactus'>ConactUs</Link></li>
- <li><a>Login/Logout</a></li> </>
+  }
 
-const [dropdownOpen, setDropdownOpen] = useState(false);
+  const yup = <>
+    <li><a>Order's</a></li>
+    <li><a>Customer's</a></li>
+    <li><Link to='/Discountshow'>Discount's</Link></li>
+    <li><Link to='/contactus'>ConactUs</Link></li>
+    <li><a>Login/Logout</a></li> </>
 
- 
- const toggleDropdown = () => {
-  setDropdownOpen(!dropdownOpen);
-};
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
 
   return (
     <>
       <div className="container mx-auto flex flex-col items-center gap-4 pb-60 relative">
         <div className="search my-10">
           <label className="input input-bordered flex items-center gap-2">
-            <input type="text" style={{}} onChange={(e)=>setsearchdata(e.target.value)} value={searchdata} className="atmainsearch" placeholder="Search" />
+            <input type="text" style={{}} onChange={(e) => setsearchdata(e.target.value)} value={searchdata} className="atmainsearch" placeholder="Search" />
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -122,31 +139,45 @@ const [dropdownOpen, setDropdownOpen] = useState(false);
         </div>
         <div className="w-80 md:w-2/3 Discounts max-h-72 md:max-h-80  rounded-xl overflow-auto">
           <ul className="w-full menu md:px-9 md:py-5 bg-base-200 rounded-box pb-8">
-          <li className="text-center mb-2 font-bold text-xl">Discount's</li>
-           {
-            discountdata.map((data)=>{
-              return(
-                <li key={data._id}>
-                  <a onClick={()=>usethisdiscount(data._id)}>{data.number+"-"+data.Discount_type}</a>
-                </li>
-              )
-            })
-           }
+            <li className="text-center mb-2 font-bold text-xl">Customer's</li>
+            {
+              customerdata.map((data) => {
+                return (
+                  <li key={data._id}>
+                    <a onClick={() => usethisdiscount(data._id)}>{data.name + "-" + "-" + data.number}</a>
+                  </li>
+                )
+              })
+            }
+          </ul>
+        </div>
+        <div className="w-80 md:w-2/3 Discounts max-h-72 md:max-h-80  rounded-xl overflow-auto">
+          <ul className="w-full menu md:px-9 md:py-5 bg-base-200 rounded-box pb-8">
+            <li className="text-center mb-2 font-bold text-xl">Discount's</li>
+            {
+              discountdata.map((data) => {
+                return (
+                  <li key={data._id}>
+                    <a onClick={() => usethisdiscount(data._id)}>{data.number + "-" + "-" + data.status}</a>
+                  </li>
+                )
+              })
+            }
           </ul>
         </div>
 
         <div className="w-80 md:w-2/3 Discounts max-h-72 md:max-h-80  rounded-xl overflow-auto">
           <ul className="w-full menu md:px-9 md:py-5 bg-base-200 rounded-box pb-8">
-          <li className="text-center mb-2 font-bold text-xl">Order's</li>
-           {
-            orderdata.map((data)=>{
-              return(
-                <li key={data._id}>
-                  <a onClick={()=>usethisdiscount(data._id)}>{data.number+"-"+data.number}</a>
-                </li>
-              )
-            })
-           }
+            <li className="text-center mb-2 font-bold text-xl">Order's</li>
+            {
+              orderdata.map((data) => {
+                return (
+                  <li key={data._id}>
+                    <a onClick={() => usethisdiscount(data._id)}>{data.number + "-" + data.name}</a>
+                  </li>
+                )
+              })
+            }
           </ul>
         </div>
 
@@ -165,28 +196,28 @@ const [dropdownOpen, setDropdownOpen] = useState(false);
           </ul>
         </div> */}
         <div className="flex-none fixed right-10 bottom-10">
-  <div className="dropdown dropdown-end">
-    <div
-      tabIndex={1}
-      role="button"
-      className="btn btn-ghost btn-circle avatar md:mx-20"
-      onClick={toggleDropdown} // Handle the click event
-    >
-      <div className="w-10 rounded-full">
-        <img
-          alt="Tailwind CSS Navbar component"
-          src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-        />
-      </div>
-    </div>
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={1}
+              role="button"
+              className="btn btn-ghost btn-circle avatar md:mx-20"
+              onClick={toggleDropdown} // Handle the click event
+            >
+              <div className="w-10 rounded-full">
+                <img
+                  alt="Tailwind CSS Navbar component"
+                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                />
+              </div>
+            </div>
 
-    {dropdownOpen && (
-      <ul
-        tabIndex={1}
-        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mb-3 w-52 p-2 shadow"
-        style={{ bottom: '0%', marginBottom: '1rem',right:'65%' }} // Adjust positioning
-      >
-        {/* <li>
+            {dropdownOpen && (
+              <ul
+                tabIndex={1}
+                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mb-3 w-52 p-2 shadow"
+                style={{ bottom: '0%', marginBottom: '1rem', right: '65%' }} // Adjust positioning
+              >
+                {/* <li>
           <a className="justify-between">
             Profile
             <span className="badge">New</span>
@@ -194,11 +225,11 @@ const [dropdownOpen, setDropdownOpen] = useState(false);
         </li>
         <li><a>Settings</a></li>
         <li><a>Logout</a></li> */}
-        {yup}
-      </ul>
-    )}
-  </div>
-</div>
+                {yup}
+              </ul>
+            )}
+          </div>
+        </div>
 
       </div>
     </>

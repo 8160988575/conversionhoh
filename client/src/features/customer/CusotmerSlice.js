@@ -46,11 +46,16 @@ const CustomerSlice = createSlice({
         singlecustomer:{},
         status:'idle',
         error:null,
+        currentworkingcustomer:{}
     },
     reducers:{     
         getonecustomer:(state,action)=>{
-            console.log("from the reducer",action.payload)
+            
             state.singlecustomer = action.payload
+        },
+        currentworkingwith:(state,action)=>{
+            console.log("currentworkingcustomer",action.payload)
+            state.currentworkingcustomer = action.payload
         }
     },
     extraReducers:(builder)=>{

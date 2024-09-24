@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll Animation Example</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 200vh; /* Make the body height larger to allow scrolling */
+            font-family: Arial, sans-serif;
+        }
+
+        .section {
+            height: 100vh; /* Full height of the viewport */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0; /* Start invisible */
+            transition: opacity 0.5s ease, transform 0.5s ease; /* Smooth transition */
+            transform: translateY(20px); /* Start slightly below */
+        }
+
+        .visible {
+            opacity: 1; /* Make visible */
+            transform: translateY(0); /* Move into place */
+        }
+
+        .section1 {
+            background-color: #f1c40f; /* Yellow background for section 1 */
+            color: white; /* Text color for section 1 */
+        }
+
+        .section2 {
+            background-color: #1abc9c; /* Green background for section 2 */
+            color: white; /* Text color for section 2 */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="section section1">
+        <h1>Content from the top (Section 1)</h1>
+    </div>
+
+    <div class="section section2">
+        <h1>You are in the second part</h1>
+    </div>
+
+    <script>
+        function checkVisibility() {
+            const sections = document.querySelectorAll('.section');
+            const windowHeight = window.innerHeight;
+
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+
+                // Check if the section is in the viewport
+                if (rect.top < windowHeight && rect.bottom > 0) {
+                    section.classList.add('visible'); // Add visible class
+                } else {
+                    section.classList.remove('visible'); // Remove visible class if out of view
+                }
+            });
+        }
+
+        window.addEventListener('scroll', checkVisibility);
+        window.addEventListener('load', checkVisibility); // Check visibility on load
+    </script>
+
+</body>
+</html>
