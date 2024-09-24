@@ -8,7 +8,11 @@ export default {
    
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        'xs': '320px', // Custom 'xs' breakpoint for smaller phones
+      },
+    },
   },
   plugins: [require('daisyui')
   ],

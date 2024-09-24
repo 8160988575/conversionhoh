@@ -1,5 +1,6 @@
 import express from 'express'
 import Freedish from '../models/freedish.model.js'
+import Customer from '../models/customer.model.js'
 
 const router = express.Router()
 
@@ -12,7 +13,20 @@ router.delete('/deletediscount',async(req,res)=>{
 })
 
 router.post('/adddiscount',async(req,res)=>{
-    const data = await Freedish.create(req.body)
+    // const data = await Freedish.create(req.body)    
+    // res.json(data)
+    const updateddata = await Customer.findOne({number:req.body.number})
+    console.log("updateddata",updateddata)
+    if (!updateddata) {
+        console.log("yup we need to add that")
+        const data22 = await Customer.create(req.body)
+        // const data22 = await Customer.create({name:req.body.name,number:req.body.number,email:req.body.email})
+    }
+   else{
+      const updateddata = await Customer.updateMany({number:req.body.number},{$set:req.body})
+        // const data22 = await Customer.create({name:req.body.name,number:req.body.number,email:req.body.email})
+    }
+    const data = await Freedish.create(req.body) 
     res.json(data)
 })
 

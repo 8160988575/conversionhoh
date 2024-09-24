@@ -54,7 +54,7 @@ export const Addordermodal = ({ isOpen, setIsOpen }) => {
   const onSubmit = async (data) => {
    
     let yup
-    if (singleorder) {
+    if (false) {
       let id = data["_id"]
       delete data["_id"]; 
       console.log("from here")

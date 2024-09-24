@@ -137,7 +137,7 @@ export const Ordershow = () => {
 
 
 
-  let check22 = Array(totalPages).fill(null).map((_,index)=><p onClick={()=>setCurrentPage(index+1)} className={`hover:bg-slate-300 hover:cursor-alias bg-white p-4 min-w-16 text-center border-collapse ${currentPage == index+1 ? "bg-red-400":"bg-slate-400"} ${index == totalPages-1 ? "bg-slate-400":"bg-slate-400"}`}>{index+1}</p>)
+  let check22 = Array(totalPages).fill(null).map((_,index)=><p onClick={()=>setCurrentPage(index+1)} className={`hover:bg-slate-300 hover:cursor-alias bg-white p-4  text-center border-collapse ${currentPage == index+1 ? "bg-red-400":"bg-slate-400"} ${index == totalPages-1 ? "bg-slate-400":"bg-slate-400"}`}>{index+1}</p>)
   
  check22.unshift(<p style={{borderRadius:"25px 0px 0px 25px"}} onClick={()=>setCurrentPage(c=>c-1)} className={`hover:bg-slate-300 hover:cursor-pointer bg-white p-4 min-w-16 text-center border-collapse ${true ? "bg-slate-400":"bg-slate-400"}`}>{"prev"}</p>)
  check22.push(<p style={{borderRadius:"0px 25px 25px 0px"}} onClick={()=>setCurrentPage(c=>c+1)} className={`hover:bg-slate-300 hover:cursor-pointer bg-white p-4 min-w-16 text-center border-collapse ${true ? "bg-slate-400":"bg-slate-400"}`}>{"next"}</p>)
@@ -155,7 +155,7 @@ export const Ordershow = () => {
             value={search}
             onChange={(e)=>setsearch(e.target.value)}
           />
-          <p>{currentPage}</p>
+        
 
           <label onClick={() =>{ 
              setIsOpen(true)
@@ -187,13 +187,13 @@ export const Ordershow = () => {
           </tbody>
         </table>
 
-        <div className="pagination flex justify-center mt-14" >
-          <div className="join flex justify-center border-2 w-1/2 rounded-2xl">
+        
+          <div className="text-center ml-0 xs:ml-5 sm:text-black xs:text-teal-500 md:justify-center flex rounded-2xl mt-10">
             {check22}
             
           </div>
         
-        </div>
+      
       </div>
       {isOpen && (
         <p className="fixed top-10 right-10 bg-white z-500" onClick={() => setIsOpen(false)}>close</p>

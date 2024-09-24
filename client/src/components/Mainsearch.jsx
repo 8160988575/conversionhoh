@@ -102,7 +102,7 @@ const [dropdownOpen, setDropdownOpen] = useState(false);
 
   return (
     <>
-      <div className="container flex flex-col items-center gap-4 pb-60 relative">
+      <div className="container mx-auto flex flex-col items-center gap-4 pb-60 relative">
         <div className="search my-10">
           <label className="input input-bordered flex items-center gap-2">
             <input type="text" style={{}} onChange={(e)=>setsearchdata(e.target.value)} value={searchdata} className="atmainsearch" placeholder="Search" />
@@ -120,9 +120,9 @@ const [dropdownOpen, setDropdownOpen] = useState(false);
             </svg>
           </label>
         </div>
-        <div className="Discounts min-w-80">
-          <ul className="menu bg-base-200 rounded-box">
-          <li className="text-center mb-2 font-bold">Discount's</li>
+        <div className="w-80 md:w-2/3 Discounts max-h-72 md:max-h-80  rounded-xl overflow-auto">
+          <ul className="w-full menu md:px-9 md:py-5 bg-base-200 rounded-box pb-8">
+          <li className="text-center mb-2 font-bold text-xl">Discount's</li>
            {
             discountdata.map((data)=>{
               return(
@@ -135,9 +135,24 @@ const [dropdownOpen, setDropdownOpen] = useState(false);
           </ul>
         </div>
 
-        <div className="Orders min-w-80">
+        <div className="w-80 md:w-2/3 Discounts max-h-72 md:max-h-80  rounded-xl overflow-auto">
+          <ul className="w-full menu md:px-9 md:py-5 bg-base-200 rounded-box pb-8">
+          <li className="text-center mb-2 font-bold text-xl">Order's</li>
+           {
+            orderdata.map((data)=>{
+              return(
+                <li key={data._id}>
+                  <a onClick={()=>usethisdiscount(data._id)}>{data.number+"-"+data.number}</a>
+                </li>
+              )
+            })
+           }
+          </ul>
+        </div>
+
+        {/* <div className="Orders min-w-80 max-h-96 overflow-scroll">
           <ul className="menu bg-base-200 rounded-box">
-          <li className="text-center mb-2 font-bold">Order's</li>
+          <li className="text-center mb-2 font-bold text-xl">Order's</li>
            {
             orderdata.map((data)=>{
               return(
@@ -148,7 +163,7 @@ const [dropdownOpen, setDropdownOpen] = useState(false);
             })
            }
           </ul>
-        </div>
+        </div> */}
         <div className="flex-none fixed right-10 bottom-10">
   <div className="dropdown dropdown-end">
     <div

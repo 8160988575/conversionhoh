@@ -64,7 +64,7 @@ const DiscountSlice = createSlice({
         console.log("error",action.error.message)
       })
       .addCase(addorder.fulfilled, (state, action) => {
-        // state.todos.push(action.payload);
+        state.order.push(action.payload);
       })
       // .addCase(updateOrder.fulfilled, (state, action) => {
       //   console.log("updateorder fulfilled")

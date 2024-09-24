@@ -61,9 +61,11 @@ const orderSchema = new mongoose.Schema({
     type: Array,
     required: false
   }
-},{
-    collection: 'order_data_short'  // Specify the existing collection name
-  });
+},
+{
+  timestamps: { currentTime: ()=> Date.now() },
+    collection: 'order_data_short',
+});
 
 const Order = mongoose.model('Order', orderSchema);
 

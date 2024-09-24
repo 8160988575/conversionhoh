@@ -14,5 +14,25 @@
    
     box-shadow: none !important;
 
-}
+} 
+
+
+
+
+
+.hover\:scrollbar-show::-webkit-scrollbar {
+    width: 8px; /* Adjust scrollbar width */
+  }
+  .hover\:scrollbar-show {
+    scrollbar-width: thin; /* For Firefox */
+  }
+  .overflow-auto::-webkit-scrollbar {
+    display: none; /* Hide scrollbar by default */
+  }
+  .overflow-auto {
+    scrollbar-width: none; /* For Firefox: Hide scrollbar by default */
+  }
+  .overflow-auto:active::-webkit-scrollbar {
+    display: block; /* Show scrollbar on scroll interaction */
+  }
 
