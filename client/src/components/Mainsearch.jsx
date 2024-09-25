@@ -150,7 +150,7 @@ export const Mainsearch = () => {
       <div className="container mx-auto flex flex-col items-center gap-4 pb-60 relative">
         <div className="search my-10 flex gap-4">
           <label className="input input-bordered flex items-center gap-2">
-            <input type="text" style={{}} onChange={(e) => {
+            <input type="text" style={{}} onChange={(e) => {dispatch(currentworkingwith({}))
               
               setsearchdata(e.target.value)}} value={searchdata} className="atmainsearch" placeholder="Search" />
             <svg
@@ -167,7 +167,6 @@ export const Mainsearch = () => {
             </svg>
           </label>
           <button onClick={()=>{!currentworkingcustomer?.number ? loadcustomer(): dispatch(currentworkingwith({}))}} className="bg-blue-700 p-3 rounded-xl text-white">{(currentworkingcustomer?.number)? "unload":"Load"}</button>
-          <button onClick={()=>{dispatch(currentworkingwith({}))}}>ul</button>
         </div>
 
 
@@ -179,6 +178,7 @@ export const Mainsearch = () => {
       <div className="stat">
         <div className="stat-title">
           CurrentUser: {currentworkingcustomer?.number}
+          
         </div>
       </div>
     </div>

@@ -3,11 +3,11 @@ import { useForm } from 'react-hook-form';
 import { MdDelete } from "react-icons/md";
 import { MdCloseFullscreen } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { addcustomer, deletecustomer, updatecustomer } from '../features/customer/CusotmerSlice';
+import { addcustomer, currentworkingwith, deletecustomer, updatecustomer } from '../features/customer/CusotmerSlice';
 
 
 export const Addcustomer = ({setIsOpen,isOpen,sethaschanged}) => {
-  const {singlecustomer} = useSelector((state)=>state.customer)
+  const {singlecustomer,currentworkingcustomer} = useSelector((state)=>state.customer)
 
   const dispatch = useDispatch();
 
@@ -30,9 +30,16 @@ export const Addcustomer = ({setIsOpen,isOpen,sethaschanged}) => {
      };
 
      useEffect(() => {
+      reset(currentworkingcustomer)
+      
+     }, [currentworkingcustomer])
+     
+
+     useEffect(() => {
       reset(singlecustomer)
       
      }, [singlecustomer])
+
      
         useEffect(() => {
           
