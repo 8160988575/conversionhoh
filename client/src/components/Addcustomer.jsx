@@ -15,14 +15,15 @@ export const Addcustomer = ({setIsOpen,isOpen,sethaschanged}) => {
 
     const onSubmit = async(data) => {   
 
-     if (singlecustomer) {
+     if (singlecustomer.number) {
       const check = dispatch(updatecustomer(data)) 
       sethaschanged(true)     
+      console.log("updation mathi")
      }
      else
      {
       const check =dispatch(addcustomer({...data,cuid:"u r cuid"}))
-      console.log("updation mathi",check)
+      console.log("adding mathi")
      }
      setIsOpen(false)
 
@@ -40,7 +41,8 @@ export const Addcustomer = ({setIsOpen,isOpen,sethaschanged}) => {
            
             if (event.key === "Escape") {
                 console.log("hi")
-                setIsOpen(false)       
+                setIsOpen(false)    
+                reset({})   
                 
             }
           };      

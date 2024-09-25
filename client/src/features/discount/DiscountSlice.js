@@ -75,9 +75,9 @@ const DiscountSlice = createSlice({
       //   state.status = 'failed';
       //   state.error = action.error.message;
       // })
-      // .addCase(adddiscount.fulfilled, (state, action) => {
-      //   state.todos.push(action.payload);
-      // })
+      .addCase(adddiscount.fulfilled, (state, action) => {
+        state.todos.push(action.payload);
+      })
       .addCase(updateTodo.fulfilled, (state, action) => {
        
         let updatedTodo = action.payload;

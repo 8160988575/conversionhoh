@@ -9,9 +9,6 @@ import { Addcustomer } from './Addcustomer';
 
 export const Showcustomers = () => {
 
-  
-
- 
   // Goal: Manage Search and Pagination for firstTimeRead and CUD(ADD, Update , Delete)(API CALLS ,One main Variable Changes)
   // and also when it Called from Page
 
@@ -111,7 +108,8 @@ summary:
             onChange={(e)=>setsearch(e.target.value)}
           />
 
-          <label onClick={() => setIsOpen(true)} className="btn text-white bg-slate-700">
+          <label onClick={() => {dispatch(getonecustomer({})),
+          setIsOpen(true)}} className="btn text-white bg-slate-700">
             Add Customer
           </label>
         </div>

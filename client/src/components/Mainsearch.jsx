@@ -3,9 +3,13 @@ import API from "../../api.js";
 import './css/CssMainsearch.css'
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTodos } from "../features/discount/DiscountSlice.js";
-import { fetchorder } from "../features/orders/OrderSlice.js";
-import { currentworkingwith, getallcustomer } from "../features/customer/CusotmerSlice.js";
+import { fetchTodos, todohandle } from "../features/discount/DiscountSlice.js";
+import { fetchorder, updateSingleOrder } from "../features/orders/OrderSlice.js";
+import { currentworkingwith, getallcustomer, getonecustomer } from "../features/customer/CusotmerSlice.js";
+import { IoPersonAddSharp } from "react-icons/io5";
+import { Addcustomer } from "./Addcustomer.jsx";
+import { Addordermodal } from "./Addordermodal.jsx";
+import { Adddiscountmodal } from "./AddDiscountmodal.jsx";
 
 
 
@@ -17,6 +21,14 @@ export const Mainsearch = () => {
   const [orderdata, setorderdata] = useState([])
   const [customerdata, setcustomerdata] = useState([])
   const [workingwithcustomer,setworkingwithcustomer] = useState([]) 
+
+  const [discountisopen, setdiscountisopen] = useState(false)
+  const [orderisopen, setorderisopen] = useState(false)
+  const [customerisopen, setcustomerisopen] = useState(false)
+  
+
+
+  const [haschanged, sethaschanged] = useState(false)
  
 
   const { todos } = useSelector((state) => state.discount)
@@ -68,7 +80,7 @@ export const Mainsearch = () => {
   }, [order])
 
   useEffect(() => {
-    console.log("customer",customer)
+    console.log("customer got updated with",customer)
     setcustomerdata(customer)
   }, [customer])
 
@@ -157,30 +169,47 @@ export const Mainsearch = () => {
           <button onClick={()=>{!currentworkingcustomer?.number ? loadcustomer(): dispatch(currentworkingwith({}))}} className="bg-blue-700 p-3 rounded-xl text-white">{(currentworkingcustomer?.number)? "unload":"Load"}</button>
           <button onClick={()=>{dispatch(currentworkingwith({}))}}>ul</button>
         </div>
-        <div className="w-80 md:w-2/3 Discounts max-h-72 md:max-h-80  rounded-xl overflow-auto">
-          <ul className="w-full menu md:px-9 md:py-5 bg-base-200 rounded-box pb-8">
-  <div className="stats shadow ">
-  <div className="stat">
-    <div className="stat-title">CurrentUser:{currentworkingcustomer?.number}</div>
-    {/* <div className="stat-value">89,400</div>
-    <div className="stat-desc">21% more than last month</div> */}
-  </div>
-</div>
-            <li className="text-center mb-2 font-bold text-xl">Customer's</li>
-            {
-              customerdata.map((data) => {
-                return (
-                  <li key={data._id}>
-                    <a onClick={() => usethisdiscount(data._id)}>{data.name + "-" + "-" + data.number}</a>
-                  </li>
-                )
-              })
-            }
-          </ul>
+
+
+
+        <div className="relative w-80 md:w-2/3 Discounts max-h-72 md:max-h-80 rounded-xl overflow-auto">
+  <ul className="w-full menu md:px-9 md:py-5 bg-base-200 rounded-box pb-8">
+  
+    <div className="stats shadow mb-2">
+      <div className="stat">
+        <div className="stat-title">
+          CurrentUser: {currentworkingcustomer?.number}
         </div>
+      </div>
+    </div>
+    <li className="font-bold text-xl flex justify-between"><span>Customer's</span><span
+    onClick={() => {dispatch(getonecustomer({}));setcustomerisopen(true)}}
+    className="absolute bottom-1 right-4"
+  >
+    <IoPersonAddSharp />
+  </span></li>
+    {customerdata.map((data) => {
+      return (
+        <li key={data._id}>
+          <a onClick={() => usethisdiscount(data._id)}>
+            {data.name + "-" + "-" + data.number}
+          </a>
+        </li>
+      );
+    })}
+  </ul>
+</div>
+
+
+
         <div className="w-80 md:w-2/3 Discounts max-h-72 md:max-h-80  rounded-xl overflow-auto">
           <ul className="w-full menu md:px-9 md:py-5 bg-base-200 rounded-box pb-8">
-            <li className="text-center mb-2 font-bold text-xl">Discount's</li>
+          <li className="font-bold text-xl flex justify-between"><span>Discount's</span><span
+    onClick={() => {dispatch(todohandle({}));setdiscountisopen(true)}}
+    className="absolute bottom-1 right-4"
+  >
+    <IoPersonAddSharp />
+  </span></li>
             {
               discountdata.map((data) => {
                 return (
@@ -195,7 +224,12 @@ export const Mainsearch = () => {
 
         <div className="w-80 md:w-2/3 Discounts max-h-72 md:max-h-80  rounded-xl overflow-auto">
           <ul className="w-full menu md:px-9 md:py-5 bg-base-200 rounded-box pb-8">
-            <li className="text-center mb-2 font-bold text-xl">Order's</li>
+          <li className="font-bold text-xl flex justify-between"><span>Order's</span><span
+    onClick={() => {dispatch(updateSingleOrder({}));setorderisopen(true)}}
+    className="absolute bottom-1 right-4"
+  >
+    <IoPersonAddSharp />
+  </span></li>
             {
               orderdata.map((data) => {
                 return (
@@ -257,7 +291,9 @@ export const Mainsearch = () => {
             )}
           </div>
         </div>
-
+        {customerisopen && <Addcustomer  setIsOpen={setcustomerisopen} isOpen haschanged sethaschanged={sethaschanged}/>}
+        {orderisopen && <Addordermodal  setIsOpen={setorderisopen} isOpen haschanged sethaschanged={sethaschanged}/>}
+        {discountisopen && <Adddiscountmodal  setIsOpen={setdiscountisopen} isOpen haschanged sethaschanged={sethaschanged}/>}
       </div>
     </>
   );

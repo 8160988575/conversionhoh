@@ -12,7 +12,7 @@ export const Adddiscountmodal = ({isOpen,setIsOpen}) => {
     const [formData, setFormData] = useState({name: "",
         number: "",
         Discount_type: "",
-        email: "yup",
+        email: "",
         reference_name: "",
         reference_number: "",
         current_use: false,
@@ -213,7 +213,7 @@ export const Adddiscountmodal = ({isOpen,setIsOpen}) => {
           <input
             type="text"
             id="email"
-            value={formData.email || "hi"}
+            value={formData.email}
             onChange={handleChange}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
             placeholder="name@flowbite.com"

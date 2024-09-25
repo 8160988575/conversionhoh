@@ -66,7 +66,7 @@ const CustomerSlice = createSlice({
             state.status='succeed'
         })
         .addCase(addcustomer.fulfilled,(state,action)=>{
-            // state.customer.push(action.payload)
+            state.customer.push(action.payload)
             // state.customer = [...state.customer,action.payload]
             
         })
