@@ -9,7 +9,9 @@ import { MdOutlineCloseFullscreen } from "react-icons/md";
 
 export const Adddiscountmodal = ({isOpen,setIsOpen}) => {
     const dispatch = useDispatch();
-    const [formData, setFormData] = useState({name: "",
+    const [formData, setFormData] = useState({
+      name: "",
+      email:"",
         number: "",
         Discount_type: "",
         email: "",
@@ -20,8 +22,11 @@ export const Adddiscountmodal = ({isOpen,setIsOpen}) => {
         status:"",       
       });
     const { todo } = useSelector((state) => state.discount);
+    const { currentworkingcustomer } = useSelector((state) => state.customer);
 
 
+
+ 
 
   
       const [defaultref, setdefaultref] = useState({
@@ -31,7 +36,7 @@ export const Adddiscountmodal = ({isOpen,setIsOpen}) => {
       const modalRef = useRef(null);
 
       useEffect(() => {    
-        todo && (
+        todo.number && (
         setFormData({
         name: todo.name,
         number: todo.number,
@@ -46,6 +51,16 @@ export const Adddiscountmodal = ({isOpen,setIsOpen}) => {
         }))
      
     }, [todo])
+
+    useEffect(() => {
+      console.log("at the currentworking discount",currentworkingcustomer.name)
+     currentworkingcustomer.name && (setFormData({...formData,name:currentworkingcustomer.name,number:currentworkingcustomer.number,email:currentworkingcustomer.email}))
+     
+
+
+    }, [currentworkingcustomer])
+    
+
     
    
       const handleSubmit = async (e) => {        
@@ -181,6 +196,24 @@ export const Adddiscountmodal = ({isOpen,setIsOpen}) => {
             onChange={handleChange}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
             placeholder="1234567890"
+            required
+          />
+        </div>
+
+        <div className="mb-5">
+          <label
+            htmlFor="email"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Your email
+          </label>
+          <input
+            type="text"
+            id="email"
+            value={formData.email}
+            onChange={handleChange}
+            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+            placeholder="Email"
             required
           />
         </div>

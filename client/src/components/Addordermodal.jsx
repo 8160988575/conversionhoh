@@ -23,6 +23,8 @@ export const Addordermodal = ({ isOpen, setIsOpen }) => {
 
   const { singleorder } = useSelector((state) => state.order);
 
+  const {currentworkingcustomer} = useSelector((state)=>state.customer)
+
   const modalRef = useRef(null);
 
   const {  register, handleSubmit, control, unregister, setValue ,reset } = useForm();
@@ -35,6 +37,11 @@ export const Addordermodal = ({ isOpen, setIsOpen }) => {
  
 
 
+
+  useEffect(() => {
+    console.log("at the single order",singleorder)
+    reset(currentworkingcustomer)
+  }, [currentworkingcustomer])
   useEffect(() => {
     console.log("at the single order",singleorder)
     reset(singleorder)
