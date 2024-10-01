@@ -18,6 +18,7 @@ import { Ordershow } from './components/Ordershow';
 import Hookform from './components/Hookform';
 import { Showcustomers } from './components/Showcustomers';
 import { Practicepage } from './components/Practicepage';
+import { Register } from './components/Register';
 
 
 
@@ -122,6 +123,10 @@ function App() {
     {
       path: "/login",
       element: <Login />, // Login page, does not include navbar and footer
+    },
+    {
+      path: "/register",
+      element: <Register />, // Login page, does not include navbar and footer
     },
     {
       path: "/addremoveone",

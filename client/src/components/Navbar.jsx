@@ -14,7 +14,9 @@ const Navbar = () => {
     <li><Link to='/Discountshow' onClick={toggleDropdown}>Discount's</Link></li>
     <li><Link to='/Discountadd' onClick={toggleDropdown}>Add_Discount</Link></li>
     <li><Link to='/contactus' onClick={toggleDropdown}>ConactUs</Link></li>
-    <li><a>Login/Logout</a></li> </>
+    <li><Link to='/login' onClick={toggleDropdown}>Login/Register</Link></li>
+    
+    </>
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
