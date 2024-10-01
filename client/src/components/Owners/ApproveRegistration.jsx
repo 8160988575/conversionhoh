@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getallrequests } from '../../features/register/RegisterSlice'
+import { Link } from 'react-router-dom'
 
 export const ApproveRegistration = () => {
 
@@ -38,8 +39,8 @@ export const ApproveRegistration = () => {
               onChange={searchhandle}
             />
   
-            <label onClick={() => setIsOpen(true)} className="btn text-white bg-slate-700">
-              Add Discount
+            <label onClick={() => setisOpen(true)} className="btn text-white bg-slate-700">
+             <Link to='/register'>Add Request</Link> 
             </label>
           </div>
           <table className="custom-table">

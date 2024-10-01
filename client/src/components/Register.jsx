@@ -5,11 +5,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaEye, FaEyeSlash, FaMailBulk } from 'react-icons/fa';
 import { addregistrationreq } from '../features/register/RegisterSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const Register = () => {
 
   const dispatch = useDispatch();
+  const {addsucess,error} = useSelector((state) => state.hoh_req)
     const defaultValues = {
         name: 'John Doe',
         username: '9876543210', // Mobile number
@@ -45,7 +46,7 @@ export const Register = () => {
   const onSubmit = async(data) => {
     console.log(data);
     const response =await dispatch(addregistrationreq(data))
-    console.log(response)
+    console.log("response",response)
     reset({
       name: '',
       username: '',
@@ -59,6 +60,24 @@ export const Register = () => {
    
     // reset({});
   };
+
+
+  useEffect(() => {
+  
+ console.log("first time called")
+  }, [])
+  
+
+useEffect(() => {
+
+  if (addsucess) {
+    toast.success('Registration Successful');
+  }
+  if (error) {
+ 
+    toast.error(error.message);
+  }
+}, [addsucess,error])
 
   const handleErrors = (errors) => {
     console.log(errors);

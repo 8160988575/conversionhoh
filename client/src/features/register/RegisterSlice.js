@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 
 export const getallrequests = createAsyncThunk('request/allrequests',async ()=>{
@@ -9,16 +10,39 @@ export const getallrequests = createAsyncThunk('request/allrequests',async ()=>{
 })
 
 
-export const addregistrationreq = createAsyncThunk('request/addrequest',async (text)=>{
-    const response = await fetch('http://localhost:5000/request/addrequest',{
-        method:'POST',
-        headers:{ 'Content-Type':  'application/json'},
-        body:JSON.stringify(text)
-    });
+export const addregistrationreq = createAsyncThunk('request/addrequest',async (text,{rejectWithValue})=>{
     
-    const check = await response.json()
-    console.log("check",check)
-   return check
+    try {
+    //   with axios
+        const response =await axios.post('http://localhost:5000/request/addrequest',text)
+        return response.data;
+
+
+        // with fetch
+    //     const response = await fetch('http://localhost:5000/request/addrequest',{
+    //         method:'POST',
+    //         headers:{ 'Content-Type':  'application/json'},
+    //         body:JSON.stringify(text)
+    //     });
+        
+    //     const check = await response.json()
+    //     console.log("check",check)
+    //     console.log("response",response)
+
+    //    if (response.ok) {
+    //     return check
+    //    } 
+    //    else {
+    //     // console.log(check)
+    //     return rejectWithValue(check)
+    //    }
+    } catch (error) {
+        // console.log("error",error.response.data)
+        return rejectWithValue(error.response.data);
+
+    }
+
+   
 })
 
 // export const updatecustomer = createAsyncThunk('customer/updatecustomer',async (text)=>{
@@ -47,6 +71,8 @@ const RegisterSlice = createSlice({
     initialState:{
         hohrequests:[],
         status:'idle',
+        addsucess:false,        
+        error:null
     },
     reducers:{     
     
@@ -60,6 +86,15 @@ const RegisterSlice = createSlice({
         })
         .addCase(addregistrationreq.fulfilled,(state,action)=>{
             state.hohrequests.push(action.payload)
+            // state.customer = [...state.customer,action.payload]
+            
+        })
+        .addCase(addregistrationreq.rejected,(state,action)=>{
+            console.log("rejected",action.payload)
+            state.error = action.payload
+            state.addsucess = false
+
+            // state.hohrequests.push(action.payload)
             // state.customer = [...state.customer,action.payload]
             
         })
