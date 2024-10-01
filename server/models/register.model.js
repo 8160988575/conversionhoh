@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  username: {
+  number: {
     type: String,
     required: true,
     unique: true,
@@ -17,23 +17,35 @@ const UserSchema = new mongoose.Schema({
       message: props => `${props.value} is not a valid mobile number!`
     }
   },
-  businessName: {
+  businessname: {
     type: String,
     required: true,
     trim: true
   },
-  businessAddress: {
+  address: {
     type: String,
     required: true,
     trim: true
   },
-  referredBy: {
+  referred_by: {
     type: String,
     trim: true
   },
   password: {
     type: String,
     required: true
+  },
+  status: {
+    type: String,
+  },
+  email: {
+    type: String,
+  },
+  customer_adding_date: {
+    type: String,
+  },
+  approvation_date: {
+    type: String,
   }
 }, {
   collection: 'hoh_customer_request',

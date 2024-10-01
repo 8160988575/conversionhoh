@@ -19,6 +19,7 @@ import Hookform from './components/Hookform';
 import { Showcustomers } from './components/Showcustomers';
 import { Practicepage } from './components/Practicepage';
 import { Register } from './components/Register';
+import { ApproveRegistration } from './components/Owners/ApproveRegistration';
 
 
 
@@ -115,6 +116,11 @@ function App() {
         {
           path: "practicepage",
           element: <Practicepage />, // Public route
+         
+        },
+        {
+          path: "req_hoh",
+          element: <ApproveRegistration />, // Public route
          
         },
      

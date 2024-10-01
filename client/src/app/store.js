@@ -4,6 +4,7 @@ import todoSlice from '../features/todo/todoSlice';
 import DiscountSlice from '../features/discount/DiscountSlice';
 import OrderSlice from '../features/orders/OrderSlice';
 import CusotmerSlice from '../features/customer/CusotmerSlice';
+import RegisterSlice from '../features/register/RegisterSlice';
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
     yuptodos:todoSlice,
     discount:DiscountSlice,
     order:OrderSlice, 
-    customer:CusotmerSlice   
+    customer:CusotmerSlice   ,
+    hoh_req:RegisterSlice
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

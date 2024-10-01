@@ -3,12 +3,17 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaMailBulk } from 'react-icons/fa';
+import { addregistrationreq } from '../features/register/RegisterSlice';
+import { useDispatch } from 'react-redux';
 
 export const Register = () => {
+
+  const dispatch = useDispatch();
     const defaultValues = {
         name: 'John Doe',
         username: '9876543210', // Mobile number
+        email:'yup@mail.com',
         businessName: 'Doe Enterprises',
         businessAddress: '123 Business Street, City',
         referredBy: 'Jane Doe',
@@ -37,19 +42,22 @@ export const Register = () => {
     setShowRepeatPassword(!showRepeatPassword);
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async(data) => {
     console.log(data);
-    // reset({
-    //   name: '',
-    //   username: '',
-    //   businessName: '',
-    //   businessAddress: '',
-    //   referredBy: '',
-    //   password: '',
-    //   repeatPassword: ''    
-    // });
+    const response =await dispatch(addregistrationreq(data))
+    console.log(response)
+    reset({
+      name: '',
+      username: '',
+      businessName: '',
+      businessAddress: '',
+      referredBy: '',
+      password: '',
+      repeatPassword: '',
+      email:'',
+    });
    
-    reset({});
+    // reset({});
   };
 
   const handleErrors = (errors) => {
@@ -99,6 +107,14 @@ export const Register = () => {
             className="input input-bordered w-full max-w-xs"
             {...register('businessName', { required: 'Business name is required' })}
           />
+
+          {/* email  field */}
+            <input 
+            type="email" 
+            placeholder="Enter your email" 
+            className="input input-bordered w-full max-w-xs"
+            {...register('email', { required: 'email is required' })}
+           />
 
           {/* Business Address field */}
           <input 

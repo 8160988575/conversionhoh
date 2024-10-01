@@ -6,7 +6,7 @@ const router = express.Router()
 
 router.put('/updateorder',async(req,res)=>{
 
-    console.log("dhhhhfjjajj")
+   
     const {id:_id,data} = req.body
    
     

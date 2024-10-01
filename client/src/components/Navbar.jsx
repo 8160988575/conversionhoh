@@ -15,6 +15,7 @@ const Navbar = () => {
     <li><Link to='/Discountadd' onClick={toggleDropdown}>Add_Discount</Link></li>
     <li><Link to='/contactus' onClick={toggleDropdown}>ConactUs</Link></li>
     <li><Link to='/login' onClick={toggleDropdown}>Login/Register</Link></li>
+    <li><Link to='/req_hoh' onClick={toggleDropdown}>hoh_req</Link></li>
     
     </>
 
