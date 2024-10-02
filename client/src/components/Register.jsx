@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaEye, FaEyeSlash, FaMailBulk } from 'react-icons/fa';
-import { addregistrationreq } from '../features/register/RegisterSlice';
+import { addregistrationreq, removeerrorofadd, removesucessofadd } from '../features/register/RegisterSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 export const Register = () => {
@@ -72,10 +72,12 @@ useEffect(() => {
 
   if (addsucess) {
     toast.success('Registration Successful');
+    dispatch(removesucessofadd())
   }
   if (error) {
  
     toast.error(error.message);
+    dispatch(removeerrorofadd())
   }
 }, [addsucess,error])
 

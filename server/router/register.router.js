@@ -1,5 +1,6 @@
 import express, { Router } from 'express'
 import Customerreq from '../models/register.model.js'
+import hohcustomer from '../models/hohcustomer.model.js'
 
 let router = express.Router()
 
@@ -16,10 +17,28 @@ router.get('/gethohrequest',async (req,res)=>{
 router.post('/addrequest',async (req,res)=>{
     console.log("from the backend",req.body.username)
     // console.log()
+     
+    const alreadyapprovedcustomer = await hohcustomer.findOne({number:req.body.username})
+    if (alreadyapprovedcustomer) {
 
-    const updateddata = await Customerreq.findOne({number:req.body.username})
-    console.log("updateddata",updateddata)
-    if (!updateddata) {
+        res.status(400).json({
+            success: false,
+            message: 'Already Approved Customer Please Login!',
+          });
+        
+    }
+
+    const alreadyrerequestedcustomer = await Customerreq.findOne({number:req.body.username})
+   if (alreadyrerequestedcustomer) {
+    res.status(500).json({
+        success: false,
+        message: 'User Applied wait for approval , in Emergency Contact our team!',
+      });
+   }
+  
+
+    // console.log("updateddata",updateddata)
+    if (!alreadyrerequestedcustomer && !alreadyapprovedcustomer) {
         const {
             name ,username:number,businessName:businessname,businessAddress:address,referredBy:reffered_by,password,email} = req.body
     
@@ -31,12 +50,7 @@ router.post('/addrequest',async (req,res)=>{
          res.json(data)
     
     }
-   else{
-    res.status(500).json({
-        success: false,
-        message: 'User already exists!',
-      });
-    }
+ 
 
    
 })

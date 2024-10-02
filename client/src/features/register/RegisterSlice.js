@@ -75,7 +75,13 @@ const RegisterSlice = createSlice({
         error:null
     },
     reducers:{     
-    
+    removesucessofadd:(state,action)=>{
+        state.addsucess = false
+    },
+    removeerrorofadd:(state,action)=>{
+        state.error =null
+    }
+
     },
     extraReducers:(builder)=>{
         builder
@@ -83,11 +89,12 @@ const RegisterSlice = createSlice({
             console.log("achived best")
             state.hohrequests = action.payload
             state.status='succeed'
+            
         })
         .addCase(addregistrationreq.fulfilled,(state,action)=>{
             state.hohrequests.push(action.payload)
             // state.customer = [...state.customer,action.payload]
-            
+            state.addsucess = true
         })
         .addCase(addregistrationreq.rejected,(state,action)=>{
             console.log("rejected",action.payload)
@@ -103,5 +110,5 @@ const RegisterSlice = createSlice({
     }
 })
 
-// export const { getonecustomer,currentworkingwith } = CustomerSlice.actions;
+export const { removesucessofadd,removeerrorofadd } = RegisterSlice.actions;
 export default RegisterSlice.reducer;
