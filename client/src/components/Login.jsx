@@ -25,6 +25,9 @@ export const Login = () => {
     toast.error(errors.password?.message);
   }
 
+ 
+
+  
   return (
     <div className='bg-red-100 flex justify-center content-center items-center h-screen'>
       <div className='flex flex-col gap-6'>
@@ -82,6 +85,7 @@ export const Login = () => {
           </p> */}
 
           {/* Submit button */}
+          <p>LoginWithGoogle</p>
           <p className='text-right font-bold'><Link to='/register'>Signup?</Link></p>
           <button type='submit' className='bg-slate-700 p-3 text-white rounded-2xl'>Submit</button>
         </form>

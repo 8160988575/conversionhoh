@@ -45,14 +45,17 @@ export const addregistrationreq = createAsyncThunk('request/addrequest',async (t
    
 })
 
-// export const updatecustomer = createAsyncThunk('customer/updatecustomer',async (text)=>{
-//     const response = await fetch('http://localhost:5000/customer/updatecustomer',{
-//         method:'PUT',
-//         headers:{ 'Content-Type':  'application/json'},
-//         body:JSON.stringify(text)
-//     });
-//    return text
-// })
+export const approverequest = createAsyncThunk('request/approverequest',async (text)=>{
+    console.log(text)
+    const response = await fetch('http://localhost:5000/request/approverequest',{
+        method:'PUT',
+        headers:{ 'Content-Type':  'application/json'},
+        body:JSON.stringify(text)
+    });
+    const check = await response.json()
+    console.log("updated or not",check)
+   return text
+})
 
 
 // export  const deletecustomer = createAsyncThunk('customer/delete',async(id)=>{
@@ -72,7 +75,9 @@ const RegisterSlice = createSlice({
         hohrequests:[],
         status:'idle',
         addsucess:false,        
-        error:null
+        error:null,
+        hohcurrentreq:{},
+    
     },
     reducers:{     
     removesucessofadd:(state,action)=>{
@@ -80,6 +85,9 @@ const RegisterSlice = createSlice({
     },
     removeerrorofadd:(state,action)=>{
         state.error =null
+    },
+    currentlyhandlingreq:(state,action)=>{
+        state.currentreq =action.payload
     }
 
     },
@@ -105,10 +113,18 @@ const RegisterSlice = createSlice({
             // state.customer = [...state.customer,action.payload]
             
         })
+        .addCase(approverequest.fulfilled,(state,action)=>{
+            console.log("request approved",action.payload) 
+
+
+            // state.hohrequests.push(action.payload)
+            // state.customer = [...state.customer,action.payload]
+            
+        })
      
 
     }
 })
 
-export const { removesucessofadd,removeerrorofadd } = RegisterSlice.actions;
+export const { removesucessofadd,removeerrorofadd,currentlyhandlingreq } = RegisterSlice.actions;
 export default RegisterSlice.reducer;

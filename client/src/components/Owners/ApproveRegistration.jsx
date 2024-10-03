@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getallrequests } from '../../features/register/RegisterSlice'
+import { currentlyhandlingreq, getallrequests } from '../../features/register/RegisterSlice'
 import { Link } from 'react-router-dom'
 
 export const ApproveRegistration = () => {
@@ -39,7 +39,7 @@ export const ApproveRegistration = () => {
               onChange={searchhandle}
             />
   
-            <label onClick={() => setisOpen(true)} className="btn text-white bg-slate-700">
+            <label className="btn text-white bg-slate-700">
              <Link to='/register'>Add Request</Link> 
             </label>
           </div>
@@ -58,8 +58,8 @@ export const ApproveRegistration = () => {
               {hohrequests?.map((row, index) => (
                 <tr key={index} onClick={()=>{
                   console.log("row",row)
-                  dispatch(todohandle(row))
-                  setIsOpen(true)
+                  dispatch(currentlyhandlingreq(row))
+                  // setIsOpen(true)
                 }}>
                   <td>{row.name}</td>
                   <td>{row.number}</td>

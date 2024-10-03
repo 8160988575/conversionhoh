@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const hohcustomerSchema = new mongoose.Schema({
   id: {
     type: String,
-    required: true
+    // required: true
   },
   cuid: {
     type: String,
@@ -29,15 +29,12 @@ const hohcustomerSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  customer_approvation_date: {
-    type: Date,
-    required: true
-  },
+
   email: {
     type: String,
     required: true
   }
-}, { collection: 'hoh_customer' });
+}, { collection: 'hoh_customer',timestamps: { createdAt: 'add_date', updatedAt: 'update_date' } });
 
 const hohcustomer = mongoose.model('hohcustomerSchema', hohcustomerSchema);
 

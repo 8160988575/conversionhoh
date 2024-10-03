@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaEye, FaEyeSlash, FaMailBulk } from 'react-icons/fa';
-import { addregistrationreq, removeerrorofadd, removesucessofadd } from '../features/register/RegisterSlice';
+import { addregistrationreq, approverequest, removeerrorofadd, removesucessofadd } from '../features/register/RegisterSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 export const Register = () => {
 
   const dispatch = useDispatch();
-  const {addsucess,error} = useSelector((state) => state.hoh_req)
+  const {addsucess,error,currentreq} = useSelector((state) => state.hoh_req)
+
     const defaultValues = {
         name: 'John Doe',
         username: '9876543210', // Mobile number
@@ -88,6 +89,13 @@ useEffect(() => {
     });
   };
 
+  useEffect(() => {
+    if (currentreq?.number) {
+    reset({...currentreq,username:currentreq.number,businessName:currentreq.businessname,businessAddress:currentreq.address,referredBy:currentreq.referred_by,repeatPassword:currentreq.password})
+  }
+    }, [currentreq])
+    
+    const navigate = useNavigate();
   return (
     <div className='bg-red-100 flex justify-center content-center items-center  pb-80 pt-20'>
       <div className='flex flex-col gap-6'>
@@ -207,6 +215,12 @@ useEffect(() => {
           {/* Submit button */}
           <p className='text-right font-bold'><Link to='/register'>Login?</Link></p>
           <button type='submit' className='bg-slate-700 p-3 text-white rounded-2xl'>Submit</button>
+          <button type="button" onClick={() => {
+            console.log("navigating to yup");
+            dispatch(approverequest(currentreq))
+            // navigate('/login')
+            }
+            } className='bg-slate-700 p-3 text-white rounded-2xl'>Approve Request</button>
         </form>
         {/* Form end */}
       </div>
