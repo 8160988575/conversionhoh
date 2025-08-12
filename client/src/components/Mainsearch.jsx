@@ -15,41 +15,40 @@ import { Adddiscountmodal } from "./AddDiscountmodal.jsx";
 
 export const Mainsearch = () => {
 
- 
+
   const [discountdata, setdiscountdata] = useState([])
   const [fixdiscountdata, setfixdiscountdata] = useState([])
   const [orderdata, setorderdata] = useState([])
   const [customerdata, setcustomerdata] = useState([])
-  const [workingwithcustomer,setworkingwithcustomer] = useState([]) 
+  const [workingwithcustomer, setworkingwithcustomer] = useState([])
 
   const [discountisopen, setdiscountisopen] = useState(false)
   const [orderisopen, setorderisopen] = useState(false)
   const [customerisopen, setcustomerisopen] = useState(false)
-  
+
 
 
   const [haschanged, sethaschanged] = useState(false)
- 
+
 
   const { todos } = useSelector((state) => state.discount)
   const { order } = useSelector((state) => state.order)
-  const { customer,currentworkingcustomer } = useSelector((state) => state.customer)
+  const { customer, currentworkingcustomer } = useSelector((state) => state.customer)
 
   const [searchdata, setsearchdata] = useState(currentworkingcustomer?.number || "")
   const loadcustomer = () => {
 
-     const gc = customer.filter((ele,index)=>ele.number == searchdata)
-     if (gc[0]) {
-        dispatch(currentworkingwith(gc[0]))
-     }
-     else
-     {
+    const gc = customer.filter((ele, index) => ele.number == searchdata)
+    if (gc[0]) {
+      dispatch(currentworkingwith(gc[0]))
+    }
+    else {
       console.log("here at the without matching part")
-      dispatch(currentworkingwith({number:searchdata}))
-     }
+      dispatch(currentworkingwith({ number: searchdata }))
+    }
 
   }
-  
+
   const dispatch = useDispatch()
   useEffect(() => {
     const getdata = async () => {
@@ -80,7 +79,7 @@ export const Mainsearch = () => {
   }, [order])
 
   useEffect(() => {
-    console.log("customer got updated with",customer)
+    console.log("customer got updated with", customer)
     setcustomerdata(customer)
   }, [customer])
 
@@ -91,7 +90,7 @@ export const Mainsearch = () => {
 
       const getdata = async () => {
         try {
-        
+
           const samedata = todos.filter((item => item.number?.toString()?.toLowerCase()?.includes(searchdata.toLowerCase()) || item.Discount_type?.toLowerCase()?.includes(searchdata.toLowerCase())))
           setdiscountdata(samedata)
 
@@ -150,9 +149,11 @@ export const Mainsearch = () => {
       <div className="container mx-auto flex flex-col items-center gap-4 pb-60 relative">
         <div className="search my-10 flex gap-4">
           <label className="input input-bordered flex items-center gap-2">
-            <input type="text" style={{}} onChange={(e) => {dispatch(currentworkingwith({}))
-              
-              setsearchdata(e.target.value)}} value={searchdata} className="atmainsearch" placeholder="Search" />
+            <input type="text" style={{}} onChange={(e) => {
+              dispatch(currentworkingwith({}))
+
+              setsearchdata(e.target.value)
+            }} value={searchdata} className="atmainsearch" placeholder="Search" />
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -166,50 +167,50 @@ export const Mainsearch = () => {
               />
             </svg>
           </label>
-          <button onClick={()=>{!currentworkingcustomer?.number ? loadcustomer(): dispatch(currentworkingwith({}))}} className="bg-blue-700 p-3 rounded-xl text-white">{(currentworkingcustomer?.number)? "unload":"Load"}</button>
+          <button onClick={() => { !currentworkingcustomer?.number ? loadcustomer() : dispatch(currentworkingwith({})) }} className="bg-blue-700 p-3 rounded-xl text-white">{(currentworkingcustomer?.number) ? "unload" : "Load"}</button>
         </div>
 
 
 
         <div className="relative w-80 md:w-2/3 Discounts max-h-72 md:max-h-80 rounded-xl overflow-auto">
-  <ul className="w-full menu md:px-9 md:py-5 bg-base-200 rounded-box pb-8">
-  
-    <div className="stats shadow mb-2">
-      <div className="stat">
-        <div className="stat-title">
-          CurrentUser: {currentworkingcustomer?.number}
-          
+          <ul className="w-full menu md:px-9 md:py-5 bg-base-200 rounded-box pb-8">
+
+            <div className="stats shadow mb-2">
+              <div className="stat">
+                <div className="stat-title">
+                  CurrentUser: {currentworkingcustomer?.number}
+
+                </div>
+              </div>
+            </div>
+            <li className="font-bold text-xl flex justify-between"><span>Customer's</span><span
+              onClick={() => { dispatch(getonecustomer({})); setcustomerisopen(true) }}
+              className="absolute bottom-1 right-4"
+            >
+              <IoPersonAddSharp />
+            </span></li>
+            {customerdata.map((data) => {
+              return (
+                <li key={data._id}>
+                  <a onClick={() => usethisdiscount(data._id)}>
+                    {data.name + "-" + "-" + data.number}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
         </div>
-      </div>
-    </div>
-    <li className="font-bold text-xl flex justify-between"><span>Customer's</span><span
-    onClick={() => {dispatch(getonecustomer({}));setcustomerisopen(true)}}
-    className="absolute bottom-1 right-4"
-  >
-    <IoPersonAddSharp />
-  </span></li>
-    {customerdata.map((data) => {
-      return (
-        <li key={data._id}>
-          <a onClick={() => usethisdiscount(data._id)}>
-            {data.name + "-" + "-" + data.number}
-          </a>
-        </li>
-      );
-    })}
-  </ul>
-</div>
 
 
 
         <div className="w-80 md:w-2/3 Discounts max-h-72 md:max-h-80  rounded-xl overflow-auto">
           <ul className="w-full menu md:px-9 md:py-5 bg-base-200 rounded-box pb-8">
-          <li className="font-bold text-xl flex justify-between"><span>Discount's</span><span
-    onClick={() => {dispatch(todohandle({}));setdiscountisopen(true)}}
-    className="absolute bottom-1 right-4"
-  >
-    <IoPersonAddSharp />
-  </span></li>
+            <li className="font-bold text-xl flex justify-between"><span>Discount's</span><span
+              onClick={() => { dispatch(todohandle({})); setdiscountisopen(true) }}
+              className="absolute bottom-1 right-4"
+            >
+              <IoPersonAddSharp />
+            </span></li>
             {
               discountdata.map((data) => {
                 return (
@@ -224,12 +225,12 @@ export const Mainsearch = () => {
 
         <div className="w-80 md:w-2/3 Discounts max-h-72 md:max-h-80  rounded-xl overflow-auto">
           <ul className="w-full menu md:px-9 md:py-5 bg-base-200 rounded-box pb-8">
-          <li className="font-bold text-xl flex justify-between"><span>Order's</span><span
-    onClick={() => {dispatch(updateSingleOrder({}));setorderisopen(true)}}
-    className="absolute bottom-1 right-4"
-  >
-    <IoPersonAddSharp />
-  </span></li>
+            <li className="font-bold text-xl flex justify-between"><span>Order's</span><span
+              onClick={() => { dispatch(updateSingleOrder({})); setorderisopen(true) }}
+              className="absolute bottom-1 right-4"
+            >
+              <IoPersonAddSharp />
+            </span></li>
             {
               orderdata.map((data) => {
                 return (
@@ -291,9 +292,9 @@ export const Mainsearch = () => {
             )}
           </div>
         </div>
-        {customerisopen && <Addcustomer  setIsOpen={setcustomerisopen} isOpen haschanged sethaschanged={sethaschanged}/>}
-        {orderisopen && <Addordermodal  setIsOpen={setorderisopen} isOpen haschanged sethaschanged={sethaschanged}/>}
-        {discountisopen && <Adddiscountmodal  setIsOpen={setdiscountisopen} isOpen haschanged sethaschanged={sethaschanged}/>}
+        {customerisopen && <Addcustomer setIsOpen={setcustomerisopen} isOpen haschanged sethaschanged={sethaschanged} />}
+        {orderisopen && <Addordermodal setIsOpen={setorderisopen} isOpen haschanged sethaschanged={sethaschanged} />}
+        {discountisopen && <Adddiscountmodal setIsOpen={setdiscountisopen} isOpen haschanged sethaschanged={sethaschanged} />}
       </div>
     </>
   );

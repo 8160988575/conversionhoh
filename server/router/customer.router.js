@@ -11,15 +11,7 @@ router.get('/getcustomers',async (req,res)=>{
 
 })
 
-// {
-//     "name": "yup",
-//     "number": "fee",
-//     "email": "saas",
-//     "status": "as",
-//     "age": "mt",
-//     "address": "dssds",
-//     "Personal_note": "dsds"
-// }
+
 
 
 router.post('/addcustomer',async (req,res)=>{
@@ -36,6 +28,18 @@ router.post('/addcustomer',async (req,res)=>{
      res.json(data)
 
 })
+
+// Older way for adding User
+// const newUser = new User({
+//     name: 'John Doe',
+//     email: 'john.doe@example.com',
+//     password: 'hashedpassword'
+//   });
+  
+//   newUser.save()
+//     .then(user => console.log(user))
+//     .catch(err => console.error(err));
+
 
 
 router.put('/updatecustomer',async(req,res)=>{

@@ -16,7 +16,7 @@ router.put('/approverequest',async (req,res)=>{
 
 const updateData = { ...req.body, status: 'approved' }; // Merge req.body with status 'approved'
 const updatedyup = await Customerreq.updateOne({number:req.body.number},{$set:updateData})
-console.log("updating this",req.body.number)
+console.log("updating this",updatedyup)
 console.log(updatedyup)
 // res.json(updatedyup)
 

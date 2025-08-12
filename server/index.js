@@ -15,7 +15,6 @@ const corsOptions = {
   credentials: true,
   origin: ['http://localhost:5000']
 
-
    // Whitelist the domains you want to allow
 };
 app.use(cors(corsOptions))

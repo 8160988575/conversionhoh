@@ -56,7 +56,8 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element:  token?<Layout />: <Navigate to="/login" replace />, // Common layout for all routes
+      // element:  token?<Layout />: <Navigate to="/login" replace />, // Common layout for all routes
+      element:  true?<Layout />: <Navigate to="/login" replace />, // Common layout for all routes
       children: [  
         {
           path: "/",
